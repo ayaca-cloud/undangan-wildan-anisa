@@ -24,8 +24,8 @@ const CONFIG = {
   // 2. Jalankan file supabase-schema.sql di SQL Editor
   // 3. Paste URL + anon key ke sini, push ulang.
   // Kalau dikosongkan, web tetap jalan pakai localStorage (demo 1 HP).
-  SUPABASE_URL: "",
-  SUPABASE_ANON_KEY: "",
+  SUPABASE_URL: "https://twbefvimsfsodzkvtycz.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_1ubvBaT4l0GKyaF7fg02FQ_m9B6TSiE",
 
   // Musik: JANGAN commit lagu "Perfect - Ed Sheeran" (copyright, bisa kena takedown).
   // Taruh file mp3 bebas-copyright dengan nama musik.mp3 di folder ini,
