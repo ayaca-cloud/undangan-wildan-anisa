@@ -6,6 +6,27 @@
   const getGuests = () => { try { return JSON.parse(localStorage.getItem(LS_GUESTS)||"[]"); } catch { return []; } };
   const saveGuests = g => localStorage.setItem(LS_GUESTS, JSON.stringify(g));
 
+  // Supabase (cloud) — cari + check-in lintas HP. Fallback localStorage kalau belum diisi.
+  let sb = null;
+  try {
+    if (typeof CONFIG !== "undefined" && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY
+        && typeof window.supabase !== "undefined" && window.supabase.createClient) {
+      sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+    }
+  } catch(e) { console.log("Supabase scan fallback lokal:", e); }
+  async function findCloud(token){
+    if (!sb) return null;
+    try {
+      const { data } = await sb.from("guests").select("name,token_qr,quota,checked_in_at").eq("token_qr", token).maybeSingle();
+      return data || null;
+    } catch(e) { console.log(e); return null; }
+  }
+  async function cloudCheckin(token){
+    if (!sb) return;
+    try { await sb.from("guests").update({ checked_in_at: new Date().toISOString() }).eq("token_qr", token); }
+    catch(e) { console.log(e); }
+  }
+
   $("pinBtn").onclick = () => {
     if ($("pinInput").value.trim() === PIN) {
       $("pinBox").style.display = "none";
@@ -28,13 +49,24 @@
     return p ? p.token : null;
   }
 
-  window.cekTamu = function(raw){
+  window.cekTamu = async function(raw){
     const parsed = parseQR(raw);
     const box = $("hasil");
     if (!parsed || !parsed.token) { box.innerHTML = `<div class="hasil err">Kode kosong</div>`; return; }
     const token = parsed.token;
+    // 1) cek lokal dulu (cepat, offline-friendly)
     const guests = getGuests();
-    const g = guests.find(x => (x.token||"").toUpperCase() === token);
+    let g = guests.find(x => (x.token||"").toUpperCase() === token);
+    let dariCloud = false;
+    // 2) kalau tidak ada lokal, cek cloud (HP lain)
+    if (!g && sb) {
+      box.innerHTML = `<div class="hasil warn">🔎 Mencari di database...</div>`;
+      const c = await findCloud(token);
+      if (c) {
+        g = { nama: c.name, hadir: "ya", pax: c.quota || 1, token: c.token_qr, checked_in_at: c.checked_in_at, created_at: null };
+        dariCloud = true;
+      }
+    }
     if (!g) {
       const namaQR = (parsed.nama || "").replace(/'/g, "");
       box.innerHTML = `<div class="hasil warn">⚠️ TIDAK DITEMUKAN di HP ini: ${token}<br>`
@@ -47,22 +79,25 @@
       box.innerHTML = `<div class="hasil warn">⚠️ SUDAH CHECK-IN<br>${g.nama} (${g.token})<br><span class="kecil">${new Date(g.checked_in_at).toLocaleString("id-ID")}</span><br><button class="btn kecil" onclick="checkinUlang('${g.token}')">Check-in lagi</button></div>`;
     } else {
       g.checked_in_at = new Date().toISOString();
+      if (dariCloud) { guests.push(g); } // simpan salinan lokal biar daftar tampil
       saveGuests(guests); renderDaftar();
-      box.innerHTML = `<div class="hasil ok">✅ VALID — Selamat datang!<br>${g.nama} • ${g.pax} orang<br><span class="kecil">${g.token}</span></div>`;
+      cloudCheckin(token); // sinkron ke cloud biar HP panitia lain lihat statusnya
+      box.innerHTML = `<div class="hasil ok">✅ VALID — Selamat datang!<br>${g.nama} • ${g.pax} orang<br><span class="kecil">${g.token}${dariCloud ? " (via cloud ☁️)" : ""}</span></div>`;
     }
   };
   window.checkinUlang = function(token){
     const guests = getGuests();
     const g = guests.find(x=>x.token===token);
-    if (g) { g.checked_in_at = new Date().toISOString(); saveGuests(guests); renderDaftar(); $("hasil").innerHTML = `<div class="hasil ok">✅ Check-in ulang: ${g.nama}</div>`; }
+    if (g) { g.checked_in_at = new Date().toISOString(); saveGuests(guests); renderDaftar(); cloudCheckin(token); $("hasil").innerHTML = `<div class="hasil ok">✅ Check-in ulang: ${g.nama}</div>`; }
   };
-  window.terimaOffline = function(token, namaQR){
+  window.terimaOffline = async function(token, namaQR){
     const nama = (namaQR && namaQR !== "null" && namaQR.trim()) ? namaQR : prompt("Nama tamu (dari QR tidak ada nama, ketik manual):", "Tamu");
     if (!nama) return;
     const guests = getGuests();
     guests.push({ nama, hadir: "ya", pax: 1, token, checked_in_at: new Date().toISOString(), created_at: new Date().toISOString(), offline: true });
     saveGuests(guests); renderDaftar();
-    $("hasil").innerHTML = `<div class="hasil ok">✅ DITERIMA (offline): ${nama}<br><span class="kecil">${token}</span></div>`;
+    if (sb) { try { await sb.from("guests").insert([{ name: nama, token_qr: token, quota: 1, checked_in_at: new Date().toISOString() }]); } catch(e) { console.log(e); } }
+    $("hasil").innerHTML = `<div class="hasil ok">✅ DITERIMA: ${nama}<br><span class="kecil">${token}</span></div>`;
   };
 
   $("manualBtn").onclick = () => window.cekTamu($("manualKode").value);
@@ -72,7 +107,7 @@
     const masuk = guests.filter(g=>g.checked_in_at).length;
     $("daftarTamu").innerHTML = `<p><b>Total RSVP: ${guests.length}</b> • Sudah masuk: <b>${masuk}</b></p>` +
       (guests.slice().reverse().map(g=>`<div class="ucapan"><b>${g.nama}</b> (${g.token}) — ${g.hadir}, ${g.pax} org ${g.checked_in_at?"✅ "+new Date(g.checked_in_at).toLocaleTimeString("id-ID"):"⏳ belum masuk"}</div>`).join("") || "<p class='kecil'>Belum ada RSVP di HP ini.</p>") +
-      `<p class="kecil">Catatan: kalau tamu RSVP dari HP lain, datanya tidak muncul di sini sampai kamu isi SUPABASE_URL di config.js (lihat README). Untuk testing 1 HP, semua muncul.</p>`;
+      `<p class="kecil">Mode: ${sb ? "☁️ cloud aktif — bisa scan QR dari HP mana pun" : "📱 lokal — isi SUPABASE_URL di config.js biar sinkron semua HP (lihat README)"}.</p>`;
   }
 
   $("exportBtn").onclick = () => {

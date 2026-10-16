@@ -18,6 +18,16 @@
   }
   const TARGET = new Date((typeof CONFIG!=="undefined" && CONFIG.tanggalAkad) || "2026-12-06T08:00:00+07:00");
 
+  // 2b. Supabase (cloud) — kalau CONFIG sudah diisi, RSVP/ucapan/check-in sinkron lintas HP.
+  // Kalau dikosongkan, web tetap jalan pakai localStorage (mode 1 browser).
+  let sb = null;
+  try {
+    if (typeof CONFIG !== "undefined" && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY
+        && typeof window.supabase !== "undefined" && window.supabase.createClient) {
+      sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+    }
+  } catch(e) { console.log("Supabase init gagal, pakai localStorage:", e); }
+
   // 3. Cover buka + musik autoplay (harus klik dulu biar tidak diblokir browser)
   let musikNyala = false;
   function toggleMusik(force){
@@ -73,9 +83,12 @@
     localStorage.setItem("wilda_anisa_myqr", JSON.stringify({nama, token}));
     tampilQR(nama, token);
 
-    // Kirim ke Supabase kalau sudah dikonfigurasi
-    if (typeof CONFIG!=="undefined" && CONFIG.SUPABASE_URL && window.supabaseClient) {
-      try { await window.supabaseClient.from("rsvps").insert([{guest_name:nama, attending:hadir, pax}]); } catch(e){ console.log(e); }
+    // Simpan ke cloud (Supabase) biar bisa di-scan dari HP panitia yang beda
+    if (sb) {
+      try {
+        await sb.from("guests").insert([{ name: nama, token_qr: token, quota: pax }]);
+        await sb.from("rsvps").insert([{ guest_name: nama, attending: hadir, pax }]);
+      } catch(e) { console.log("Supabase RSVP gagal (tetap kesimpen lokal):", e); }
     }
   };
 
@@ -113,26 +126,35 @@
     a.download = "qr-undangan.png"; a.href = c.toDataURL(); a.click();
   };
 
-  // 7. Wishes
+  // 7. Wishes (local + cloud)
   const LS_WISH = "wilda_anisa_wishes";
   const getW = () => { try { return JSON.parse(localStorage.getItem(LS_WISH)||"[]"); } catch { return []; } };
-  function renderW(){
-    const list = getW().slice().reverse();
-    $("wishList").innerHTML = list.length
-      ? list.map(w=>`<div class="ucapan"><b>${escapeHtml(w.nama)}</b><br>${escapeHtml(w.pesan)}<br><span class="kecil">${new Date(w.tgl).toLocaleString("id-ID")}</span></div>`).join("")
+  function renderW(list){
+    const data = (list || getW()).slice().reverse();
+    $("wishList").innerHTML = data.length
+      ? data.map(w=>`<div class="ucapan"><b>${escapeHtml(w.nama||w.name)}</b><br>${escapeHtml(w.pesan||w.message)}<br><span class="kecil">${new Date(w.tgl||w.created_at).toLocaleString("id-ID")}</span></div>`).join("")
       : "<p class='kecil'>Belum ada ucapan. Jadilah yang pertama! 💌</p>";
+  }
+  async function loadWishes(){
+    if (!sb) return;
+    try {
+      const { data } = await sb.from("wishes").select("name,message,created_at").order("created_at", { ascending: false }).limit(100);
+      if (data && data.length) renderW(data.slice().reverse());
+    } catch(e) { console.log("Load wishes cloud gagal:", e); }
   }
   function escapeHtml(s){ return (s||"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
   window.copyText = t => { navigator.clipboard.writeText(t).then(()=>alert("Disalin: "+t)); };
-  $("wishBtn").onclick = () => {
+  $("wishBtn").onclick = async () => {
     const nama = $("wishNama").value.trim() || "Hamba Allah";
     const pesan = $("wishPesan").value.trim();
     if (!pesan) { alert("Tulis ucapan dulu"); return; }
     const arr = getW(); arr.push({nama, pesan, tgl:new Date().toISOString()});
     localStorage.setItem(LS_WISH, JSON.stringify(arr));
     $("wishPesan").value=""; renderW();
+    if (sb) { try { await sb.from("wishes").insert([{ name: nama, message: pesan }]); loadWishes(); } catch(e) { console.log(e); } }
   };
   renderW();
+  loadWishes();
 
   // Seed ucapan contoh kalau kosong
   if (getW().length===0) {

@@ -42,6 +42,11 @@ create policy "public insert wishes" on wishes for insert to anon with check (tr
 drop policy if exists "public read wishes" on wishes;
 create policy "public read wishes" on wishes for select to anon using (true);
 
--- guests: read publik (buat validasi QR), update hanya via service_role (ditempel di backend/panitia)
+-- guests: read publik (buat validasi QR), insert publik (RSVP dari HP tamu),
+-- update publik (check-in panitia; halaman scan dilindungi PIN 061226 di frontend)
 drop policy if exists "public read guests" on guests;
 create policy "public read guests" on guests for select to anon using (true);
+drop policy if exists "public insert guests" on guests;
+create policy "public insert guests" on guests for insert to anon with check (true);
+drop policy if exists "panitia checkin guests" on guests;
+create policy "panitia checkin guests" on guests for update to anon using (true) with check (true);
