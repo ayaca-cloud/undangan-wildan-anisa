@@ -16,7 +16,7 @@ const CONFIG = {
   tanggalAkad: "2026-12-06T08:00:00+07:00",
   tanggalResepsi: "2026-12-06T10:00:00+07:00",
   alamatAkad: "Kediaman Mempelai Wanita, Jl. Remaja Gang PLN. No 4A (Mushola At-Taufiq)",
-  alamatResepsi: "Gedung Serbaguna Melati, Jl. Remaja Gang PLN (seberang jati 2/gang sebrang titik maps)",
+  alamatResepsi: "Jl. Remaja Gang PLN (seberang jati 2/gang sebrang titik maps)",
   linkMaps: "https://maps.app.goo.gl/QifXApQSj4L72tJa8",
 
   // Supabase (opsional, tapi WAJIB diisi biar QR bisa di-scan HP panitia yang beda).
