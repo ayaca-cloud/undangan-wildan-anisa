@@ -1,0 +1,142 @@
+/* Tema Doodle Cute - Wildan & Anisa */
+:root {
+  --kertas: #FFF8EC;
+  --tinta: #2B2B2B;
+  --coral: #FF8FA3;
+  --sage: #A8D5BA;
+  --kuning: #FFD166;
+  --biru: #A0E7E5;
+  --putih: #FFFFFF;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--kertas);
+  background-image: radial-gradient(#00000010 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--tinta);
+  font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", "Segoe Print", cursive;
+}
+/* Judul gaya tulisan tangan */
+.hand { font-family: "Caveat", "Comic Neue", cursive; }
+.wrap { max-width: 560px; margin: 0 auto; padding: 0 18px 80px; }
+
+/* Kartu doodle: border goyang ala gambar tangan */
+.doodle-card {
+  background: var(--putih);
+  border: 2.5px solid var(--tinta);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  padding: 20px;
+  margin: 18px 0;
+  box-shadow: 4px 4px 0 var(--tinta);
+  transform: rotate(-0.5deg);
+}
+.doodle-card:nth-child(even) { transform: rotate(0.6deg); }
+.doodle-card.coral { background: #FFF0F3; }
+.doodle-card.kuning { background: #FFF7D6; }
+.doodle-card.biru { background: #E8FBFA; }
+.doodle-card.hijau { background: #EFF9F1; }
+
+.btn {
+  display: inline-block;
+  border: 2.5px solid var(--tinta);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  padding: 12px 22px;
+  background: var(--kuning);
+  color: var(--tinta);
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 var(--tinta);
+  transition: transform .15s;
+  font-size: 16px;
+}
+.btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--tinta); }
+.btn.pink { background: var(--coral); color: #fff; text-shadow: 1px 1px 0 #00000055; }
+.btn.biru { background: var(--biru); }
+.btn.putih { background: #fff; }
+.btn.kecil { padding: 8px 14px; font-size: 14px; }
+
+/* Cover fullscreen */
+#cover {
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--kertas);
+  background-image: radial-gradient(#00000012 1px, transparent 1px);
+  background-size: 20px 20px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 24px;
+  transition: transform .7s ease, opacity .7s;
+}
+#cover.buka { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+.cover-box {
+  border: 3px dashed var(--tinta);
+  border-radius: 30px;
+  padding: 28px 22px;
+  background: #fff;
+  max-width: 420px; width: 100%;
+  box-shadow: 6px 6px 0 var(--tinta);
+}
+.nama-besar { font-size: 52px; line-height: 1; margin: 8px 0; }
+.squiggle { height: 18px; margin: 10px auto; display: block; }
+
+/* Countdown */
+.count-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 14px 0; }
+.count-box {
+  border: 2.5px solid var(--tinta); background: #fff;
+  border-radius: 18px 6px 18px 6px;
+  padding: 10px 4px; text-align: center;
+  box-shadow: 3px 3px 0 var(--tinta);
+}
+.count-box b { font-size: 26px; display: block; }
+.count-box span { font-size: 12px; }
+
+/* Galeri */
+.galeri { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.galeri img {
+  width: 100%; border-radius: 16px 5px 16px 5px;
+  border: 2.5px solid var(--tinta);
+  box-shadow: 3px 3px 0 var(--tinta);
+  background: #fff;
+}
+.galeri img:nth-child(odd) { transform: rotate(-1.5deg); }
+.galeri img:nth-child(even) { transform: rotate(1.5deg); }
+
+/* Form */
+input, select, textarea {
+  width: 100%; padding: 12px;
+  border: 2.5px solid var(--tinta); border-radius: 14px 5px 14px 5px;
+  font-family: inherit; font-size: 15px; background: #fff; margin: 6px 0 12px;
+}
+label { font-weight: 700; font-size: 14px; }
+
+/* QR */
+#qrBox { text-align: center; }
+#qrBox img, #qrBox canvas { border: 3px solid var(--tinta); border-radius: 16px; padding: 10px; background: #fff; }
+
+/* Musik melayang */
+#musikBtn {
+  position: fixed; right: 16px; bottom: 16px; z-index: 40;
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 2.5px solid var(--tinta); background: var(--kuning);
+  font-size: 24px; cursor: pointer; box-shadow: 3px 3px 0 var(--tinta);
+}
+#musikBtn.mati { background: #ddd; }
+
+/* Wishes */
+.ucapan { border-bottom: 2px dashed #00000033; padding: 10px 2px; }
+.ucapan b { color: #d14d6a; }
+
+/* Scan */
+video { width: 100%; border-radius: 16px; border: 3px solid var(--tinta); background: #000; }
+.hasil { padding: 14px; border-radius: 14px; margin-top: 12px; font-weight: 700; text-align: center; }
+.hasil.ok { background: #D6F5DD; border: 2px solid #1d7a34; }
+.hasil.warn { background: #FFF3C4; border: 2px solid #8a6d00; }
+.hasil.err { background: #FFD9DE; border: 2px solid #a11; }
+.kecil { font-size: 13px; opacity: .8; }
+.center { text-align: center; }
+.divider { text-align: center; font-size: 28px; margin: 26px 0 6px; }
+.foto-pasangan { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--tinta); object-fit: cover; background: #fff; }
+.pasangan-row { display: flex; gap: 12px; align-items: center; justify-content: center; }
+.amplop-norek { font-size: 20px; letter-spacing: 1px; background: #fff; border: 2px dashed var(--tinta); padding: 8px; border-radius: 12px; text-align: center; }

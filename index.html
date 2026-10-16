@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wildan & Anisa — Undangan Pernikahan</title>
+<meta property="og:title" content="Undangan Pernikahan Wildan & Anisa">
+<meta property="og:description" content="Assalamualaikum, mohon doa restu. Klik untuk buka undangan. Ahad, 6 Des 2026">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<!-- MUSIK -->
+<button id="musikBtn" class="mati" title="musik">♪</button>
+<audio id="musik" loop preload="none"></audio>
+
+<!-- COVER -->
+<div id="cover">
+  <div class="cover-box">
+    <div>✿ ✿ ✿</div>
+    <p class="kecil">Assalamualaikum Wr. Wb.<br>Undangan Pernikahan</p>
+    <h1 class="hand nama-besar">Wildan & Anisa</h1>
+    <svg class="squiggle" width="180" viewBox="0 0 180 18"><path d="M2 9 Q 20 2 40 9 T 80 9 T 120 9 T 178 9" fill="none" stroke="#2B2B2B" stroke-width="2.5" stroke-linecap="round"/></svg>
+    <p class="kecil">Kepada Yth.<br>Bapak/Ibu/Saudara/i:</p>
+    <h2 id="namaTamu">Tamu Undangan</h2>
+    <p class="kecil">*maaf bila ada salah penulisan nama & gelar</p>
+    <button class="btn pink" id="bukaBtn">✉️ Buka Undangan</button>
+    <p class="kecil">06 • 12 • 2026</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="center" style="padding-top:26px">
+    <div style="font-size:34px">♡₊˚ doodle wedding ˚₊♡</div>
+    <p class="hand" style="font-size:30px;margin:6px 0">Bismillahirrahmanirrahim</p>
+    <p>Dengan penuh sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami:</p>
+  </div>
+
+  <!-- MEMPELAI -->
+  <div class="doodle-card coral center">
+    <div class="pasangan-row">
+      <div>
+        <img class="foto-pasangan" src="https://picsum.photos/seed/wildan/300/300" alt="Wildan">
+        <h2 class="hand" style="font-size:34px;margin:8px 0 0">Wildan</h2>
+        <p class="kecil">Putra dari<br><b><span id="ayahPria">Alm. Sudarmin</span> & <span id="ibuPria">Nani</span></b></p>
+      </div>
+      <div style="font-size:40px">&</div>
+      <div>
+        <img class="foto-pasangan" src="https://picsum.photos/seed/anisa/300/300" alt="Anisa">
+        <h2 class="hand" style="font-size:34px;margin:8px 0 0">Anisa</h2>
+        <p class="kecil">Putri dari<br><b><span id="ayahWanita">Edi</span> & <span id="ibuWanita">Isal</span></b></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">〜 ✿ 〜 ✿ 〜</div>
+
+  <!-- COUNTDOWN -->
+  <div class="doodle-card kuning center">
+    <h2 class="hand" style="font-size:32px;margin:0">Save The Date!</h2>
+    <p><b>Ahad, 6 Desember 2026</b></p>
+    <div class="count-grid">
+      <div class="count-box"><b id="cdHari">0</b><span>Hari</span></div>
+      <div class="count-box"><b id="cdJam">0</b><span>Jam</span></div>
+      <div class="count-box"><b id="cdMenit">0</b><span>Menit</span></div>
+      <div class="count-box"><b id="cdDetik">0</b><span>Detik</span></div>
+    </div>
+    <button class="btn biru kecil" id="saveCal">📅 Simpan ke Kalender</button>
+  </div>
+
+  <!-- AKAD & RESEPSI -->
+  <div class="doodle-card hijau center">
+    <h3 class="hand" style="font-size:30px">💍 Akad Nikah</h3>
+    <p><b>Ahad, 6 Des 2026 • 08.00 WIB</b><br><span id="alamatAkad">Kediaman Mempelai Wanita, Jl. Melati No. 12, Jakarta</span></p>
+    <a class="btn putih kecil" id="mapsAkad" target="_blank" href="https://maps.google.com/?q=Jakarta">🗺️ Buka Maps</a>
+  </div>
+  <div class="doodle-card biru center">
+    <h3 class="hand" style="font-size:30px">🥳 Resepsi</h3>
+    <p><b>Ahad, 6 Des 2026 • 11.00 WIB — selesai</b><br><span id="alamatResepsi">Gedung Serbaguna Melati, Jl. Melati No. 12, Jakarta</span></p>
+    <a class="btn putih kecil" id="mapsResepsi" target="_blank" href="https://maps.google.com/?q=Jakarta">🗺️ Rute ke Lokasi</a>
+  </div>
+
+  <div class="divider">✎﹏ galeri ﹏✎</div>
+  <div class="doodle-card">
+    <div class="galeri">
+      <img src="https://picsum.photos/seed/nikah1/500/500" alt="foto 1">
+      <img src="https://picsum.photos/seed/nikah2/500/500" alt="foto 2">
+      <img src="https://picsum.photos/seed/nikah3/500/500" alt="foto 3">
+      <img src="https://picsum.photos/seed/nikah4/500/500" alt="foto 4">
+    </div>
+    <p class="kecil center">*foto placeholder doodle — ganti dengan foto kalian di folder ini nanti (foto1.jpg dst). Tutorial ada di README.</p>
+  </div>
+
+  <div class="divider">✉﹏ RSVP ﹏✉</div>
+  <!-- RSVP -->
+  <div class="doodle-card kuning">
+    <h3 class="hand" style="font-size:30px;margin:0">Konfirmasi Kehadiran</h3>
+    <p class="kecil">Isi dulu, langsung dapat QR tiket masuk!</p>
+    <label>Nama lengkap</label>
+    <input id="rsvpNama" placeholder="cth: Budi + Istri">
+    <label>Kehadiran</label>
+    <select id="rsvpHadir">
+      <option value="ya">InsyaAllah Hadir 🎉</option>
+      <option value="tidak">Berhalangan 🙏</option>
+      <option value="ragu">Masih ragu 🤔</option>
+    </select>
+    <label>Jumlah tamu (termasuk kamu)</label>
+    <input id="rsvpPax" type="number" min="1" max="5" value="1">
+    <button class="btn pink" id="rsvpBtn" style="width:100%">Kirim & Buat QR Saya 🎟️</button>
+    <div id="qrBox" style="display:none;margin-top:14px">
+      <p><b>🎟️ QR Tiket Kamu:</b></p>
+      <div id="qrImg" style="display:flex;justify-content:center"></div>
+      <p><b id="qrKode" style="font-size:20px"></b></p>
+      <p class="kecil">Tunjukkan QR ini ke panitia di pintu masuk.<br>Bisa screenshot / download.</p>
+      <button class="btn putih kecil" id="qrDownload">⬇️ Download QR</button>
+      <a class="btn biru kecil" id="qrShare" target="_blank" href="#">↗ Share WA</a>
+    </div>
+  </div>
+
+  <!-- AMPLOP -->
+  <div class="doodle-card coral">
+    <h3 class="hand center" style="font-size:30px;margin:0">💌 Tanda Kasih</h3>
+    <p class="center kecil">Doa restu sudah cukup, tapi kalau mau berbagi tanda kasih:</p>
+    <p><b>🏦 BCA 1234567890 a.n. Wildan</b></p>
+    <div class="amplop-norek" id="norek1">1234567890</div>
+    <p class="center"><button class="btn putih kecil" onclick="copyText('1234567890')">📋 Copy No. Rek</button></p>
+    <p><b>💳 DANA 0812-xxxx-xxxx a.n. Anisa</b></p>
+    <div class="amplop-norek">0812-0000-0000</div>
+    <p class="center"><button class="btn putih kecil" onclick="copyText('081200000000')">📋 Copy DANA</button></p>
+    <p class="kecil center">*ganti nomor di atas dengan nomor asli kalian (cari tulisan BCA/DANA di index.html)</p>
+  </div>
+
+  <!-- UCAPAN -->
+  <div class="doodle-card hijau">
+    <h3 class="hand" style="font-size:30px;margin:0">💬 Ucapan & Doa</h3>
+    <label>Nama</label><input id="wishNama" placeholder="Nama kamu">
+    <label>Ucapan</label><textarea id="wishPesan" rows="3" placeholder="Barakallahu laka..."></textarea>
+    <button class="btn" id="wishBtn" style="width:100%">Kirim Ucapan 💌</button>
+    <div id="wishList" style="margin-top:12px"></div>
+  </div>
+
+  <div class="doodle-card center">
+    <p>Merupakan suatu kehormatan & kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.</p>
+    <p><b>Wassalamualaikum Wr. Wb.</b></p>
+    <h2 class="hand" style="font-size:36px">Wildan & Anisa ♡</h2>
+    <p class="kecil">Dibuat dengan ♥ di VS Code • <a href="scan.html">masuk sebagai panitia →</a></p>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
