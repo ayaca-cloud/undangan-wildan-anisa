@@ -102,13 +102,42 @@
 
   $("manualBtn").onclick = () => window.cekTamu($("manualKode").value);
 
-  function renderDaftar(){
-    const guests = getGuests();
+  async function renderDaftar(){
+    let guests = getGuests();
+    let cloudOn = false;
+    const cloudTokens = new Set();
+    // Tarik daftar dari cloud biar semua HP panitia lihat data yang sama
+    if (sb) {
+      try {
+        const { data } = await sb.from("guests").select("name,token_qr,quota,checked_in_at").order("created_at", { ascending: false }).limit(500);
+        if (data) {
+          cloudOn = true;
+          data.forEach(c => cloudTokens.add((c.token_qr||"").toUpperCase()));
+          const localByToken = {};
+          guests.forEach(x => localByToken[(x.token||"").toUpperCase()] = x);
+          data.forEach(c => {
+            const t = (c.token_qr||"").toUpperCase();
+            const l = localByToken[t];
+            if (!l) {
+              guests.push({ nama: c.name, hadir: "ya", pax: c.quota || 1, token: c.token_qr, checked_in_at: c.checked_in_at, created_at: null });
+            } else if (c.checked_in_at && !l.checked_in_at) {
+              l.checked_in_at = c.checked_in_at; // status terbaru dari HP lain
+            }
+          });
+          saveGuests(guests);
+        }
+      } catch(e) { console.log("Load daftar cloud gagal:", e); }
+    }
     const masuk = guests.filter(g=>g.checked_in_at).length;
-    $("daftarTamu").innerHTML = `<p><b>Total RSVP: ${guests.length}</b> • Sudah masuk: <b>${masuk}</b></p>` +
-      (guests.slice().reverse().map(g=>`<div class="ucapan"><b>${g.nama}</b> (${g.token}) — ${g.hadir}, ${g.pax} org ${g.checked_in_at?"✅ "+new Date(g.checked_in_at).toLocaleTimeString("id-ID"):"⏳ belum masuk"}</div>`).join("") || "<p class='kecil'>Belum ada RSVP di HP ini.</p>") +
-      `<p class="kecil">Mode: ${sb ? "☁️ cloud aktif — bisa scan QR dari HP mana pun" : "📱 lokal — isi SUPABASE_URL di config.js biar sinkron semua HP (lihat README)"}.</p>`;
+    const totalTampil = cloudOn
+      ? cloudTokens.size + guests.filter(g => !cloudTokens.has((g.token||"").toUpperCase())).length
+      : guests.length;
+    $("daftarTamu").innerHTML = `<p><b>Total RSVP: ${totalTampil}${cloudOn ? " (cloud ☁️)" : ""}</b> • Sudah masuk: <b>${masuk}</b></p>` +
+      (guests.slice().reverse().map(g=>`<div class="ucapan"><b>${escapeDaftar(g.nama)}</b> (${g.token}) — ${g.hadir}, ${g.pax} org ${g.checked_in_at?"✅ "+new Date(g.checked_in_at).toLocaleTimeString("id-ID"):"⏳ belum masuk"}</div>`).join("") || "<p class='kecil'>Belum ada RSVP.</p>") +
+      `<p class="kecil">Mode: ${sb ? "☁️ cloud aktif — daftar ini gabungan semua HP" : "📱 lokal — isi SUPABASE_URL di config.js (lihat README)"}.</p>`;
   }
+  function escapeDaftar(s){ return (s||"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+  window.refreshDaftar = () => renderDaftar();
 
   $("exportBtn").onclick = () => {
     const guests = getGuests();
