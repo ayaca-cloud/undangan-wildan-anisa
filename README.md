@@ -11,7 +11,7 @@ Tanggal: Ahad, 6 Des 2026 • PIN panitia: `061226`
 
 ## Fitur
 - Cover + `?to=Nama` • Countdown 6 Des 2026 • Save Calendar • Maps
-- Galeri placeholder (ganti `picsum.photos` dengan foto asli)
+- Tanpa foto/galeri (sesuai permintaan — avatar doodle inisial W & A)
 - RSVP → dapat QR `WDG-XXXXXX` (download/share WA)
 - Amplop (ganti norek di index.html) • Ucapan (localStorage)
 - Scan panitia: kamera (butuh HTTPS) + input manual + export CSV
