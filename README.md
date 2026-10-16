@@ -49,5 +49,5 @@ Alternatif tanpa Vercel: drag folder ini ke app.netlify.com/drop → langsung ja
 
 ## Ganti foto/norek/alamat
 - Foto: cari `picsum.photos` di `index.html`, ganti dengan `foto1.jpg` (taruh file di folder ini)
-- Norek: cari `BCA` / `DANA` di `index.html`
+- Norek: sudah SeaBank 9010 2930 6740 a.n. Anisa Kusuma Brata Putri (cari `SeaBank` di `index.html` kalau mau ganti)
 - Alamat/maps: edit `config.js` (alamatAkad, linkMaps)
