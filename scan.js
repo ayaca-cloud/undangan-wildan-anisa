@@ -112,10 +112,11 @@
         const { data } = await sb.from("guests").select("name,token_qr,quota,checked_in_at").order("created_at", { ascending: false }).limit(500);
         if (data) {
           cloudOn = true;
-          data.forEach(c => cloudTokens.add((c.token_qr||"").toUpperCase()));
+          const bersih = data.filter(c => !(c.token_qr||"").startsWith("__"));
+          bersih.forEach(c => cloudTokens.add((c.token_qr||"").toUpperCase()));
           const localByToken = {};
           guests.forEach(x => localByToken[(x.token||"").toUpperCase()] = x);
-          data.forEach(c => {
+          bersih.forEach(c => {
             const t = (c.token_qr||"").toUpperCase();
             const l = localByToken[t];
             if (!l) {

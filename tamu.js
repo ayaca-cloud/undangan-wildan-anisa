@@ -1,10 +1,11 @@
-// === DAFTAR TAMU + GENERATOR LINK WA ===
+// === DAFTAR TAMU + GENERATOR LINK WA (cloud-backed) ===
 (function(){
   const $ = id => document.getElementById(id);
   const PIN = (typeof CONFIG!=="undefined" && CONFIG.PANITIA_PIN) || "061226";
   const LS = "wilda_anisa_daftar_tamu";
   const LS_TPL = "wilda_anisa_tpl_wa";
   const LS_BASE = "wilda_anisa_base_url";
+  const CLOUD_TOKEN = "__INVITE_LIST__";
 
   const DEFAULT_TPL =
 `Assalamualaikum Wr. Wb. Yth. {nama} 🙏
@@ -21,6 +22,9 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
 
 — Wildan & Anisa ♡`;
 
+  let sb = null;
+  let saveTimer = null;
+
   $("pinBtn").onclick = () => {
     if ($("pinInput").value.trim() === PIN) {
       $("pinBox").style.display = "none";
@@ -29,18 +33,48 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     } else alert("PIN salah! Tanya Wildan/Anisa.");
   };
 
-  let sb = null;
-  function init(){
+  function setStatus(t){ const el = $("syncStatus"); if (el) el.textContent = t; }
+
+  async function init(){
     try {
       if (typeof CONFIG!=="undefined" && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY
           && window.supabase && window.supabase.createClient) {
         sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
       }
-    } catch(e){}
-    $("baseUrl").value = localStorage.getItem(LS_BASE) || (location.origin.includes("127.") || location.origin.includes("localhost") ? "https://undangan-wildan-anisa.vercel.app" : location.origin);
+    } catch(e){ console.log(e); }
+
+    // Nilai default kalau belum ada
+    if (!$("baseUrl").value) {
+      $("baseUrl").value = localStorage.getItem(LS_BASE) ||
+        ((location.origin.includes("127.") || location.origin.includes("localhost")) ? "https://undangan-wildan-anisa.vercel.app" : location.origin);
+    }
+
+    // Tarik dari cloud dulu (biar nggak hilang walau ganti HP/browser)
+    setStatus("⏳ memuat dari cloud...");
+    let adaCloud = false;
+    if (sb) {
+      try {
+        const { data } = await sb.from("guests").select("slug").eq("token_qr", CLOUD_TOKEN).maybeSingle();
+        if (data && data.slug) {
+          const p = JSON.parse(data.slug);
+          if (Array.isArray(p.tamu)) localStorage.setItem(LS, JSON.stringify(p.tamu));
+          if (typeof p.tpl === "string") localStorage.setItem(LS_TPL, p.tpl);
+          if (typeof p.base === "string" && p.base) localStorage.setItem(LS_BASE, p.base);
+          adaCloud = true;
+        }
+      } catch(e) { console.log("pull cloud gagal:", e); }
+    }
+
+    // Isi form dari cache/data
+    $("baseUrl").value = localStorage.getItem(LS_BASE) || $("baseUrl").value;
     $("tplPesan").value = localStorage.getItem(LS_TPL) || DEFAULT_TPL;
+    setStatus(sb ? (adaCloud ? "☁️ tersambung cloud" : "☁️ cloud siap (belum ada data)") : "📱 mode lokal (cloud off)");
+
     render();
     cekRsvp();
+
+    // Kalau cloud kosong tapi ada data lokal (migrasi pertama), naikkan ke cloud
+    if (sb && !adaCloud && (getT().length || localStorage.getItem(LS_TPL))) pushCloud();
   }
 
   const getT = () => { try { return JSON.parse(localStorage.getItem(LS)||"[]"); } catch { return []; } };
@@ -65,6 +99,24 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     return "https://wa.me/" + n + "?text=" + encodeURIComponent(pesan);
   }
 
+  // Simpan ke cloud (debounce biar nggak spam)
+  function pushCloudSoon(){ clearTimeout(saveTimer); saveTimer = setTimeout(pushCloud, 700); }
+  async function pushCloud(){
+    if (!sb) { setStatus("📱 tersimpan lokal saja"); return; }
+    try {
+      const payload = { tamu: getT(), tpl: $("tplPesan").value, base: baseUrl() };
+      const { error } = await sb.from("guests").upsert(
+        { name: "config", token_qr: CLOUD_TOKEN, slug: JSON.stringify(payload), quota: 0 },
+        { onConflict: "token_qr" }
+      );
+      if (error) throw error;
+      setStatus("☁️ tersimpan ke cloud • " + new Date().toLocaleTimeString("id-ID"));
+    } catch(e) {
+      console.log("push cloud gagal:", e);
+      setStatus("⚠️ gagal simpan cloud (cek koneksi)");
+    }
+  }
+
   $("addBtn").onclick = () => {
     const nama = $("fNama").value.trim();
     if (!nama) { alert("Isi nama tamu dulu"); return; }
@@ -72,27 +124,29 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     t.push({ nama, wa: $("fWa").value.trim(), kat: $("fKat").value, pax: parseInt($("fPax").value||"2"), tgl: new Date().toISOString() });
     saveT(t);
     $("fNama").value = ""; $("fWa").value = "";
-    render(); cekRsvp();
+    render(); cekRsvp(); pushCloud();
   };
-  $("tplSimpan").onclick = () => { localStorage.setItem(LS_TPL, $("tplPesan").value); alert("Template tersimpan!"); render(); };
-  $("tplReset").onclick = () => { $("tplPesan").value = DEFAULT_TPL; localStorage.setItem(LS_TPL, DEFAULT_TPL); render(); };
-  $("baseUrl").onchange = render;
+  $("tplSimpan").onclick = () => { localStorage.setItem(LS_TPL, $("tplPesan").value); pushCloud(); alert("Template tersimpan (lokal + cloud)!"); render(); };
+  $("tplReset").onclick = () => { $("tplPesan").value = DEFAULT_TPL; localStorage.setItem(LS_TPL, DEFAULT_TPL); pushCloud(); render(); };
+  $("baseUrl").onchange = () => { baseUrl(); render(); pushCloudSoon(); };
+  $("tplPesan").addEventListener("input", () => { localStorage.setItem(LS_TPL, $("tplPesan").value); pushCloudSoon(); });
 
-  // Status RSVP: cocokkan nama (huruf kecil, tanpa gelar) dengan data cloud + lokal
+  // Status RSVP: cocokkan nama dengan data cloud + lokal (abaikan baris config)
   let cloudNames = [], localNames = [];
+  const reserved = tk => (tk||"").startsWith("__");
   function norm(s){ return (s||"").toLowerCase().replace(/^(bpk|ibu|pak|bu|sdr|saudara)\.?\s+/,"").trim(); }
   async function cekRsvp(){
     cloudNames = []; localNames = [];
     try { localNames = JSON.parse(localStorage.getItem("wilda_anisa_guests")||"[]").map(g=>norm(g.nama)); } catch {}
     if (sb) {
       try {
-        const { data } = await sb.from("guests").select("name").limit(1000);
-        if (data) cloudNames = data.map(r=>norm(r.name));
+        const { data } = await sb.from("guests").select("name,token_qr").limit(1000);
+        if (data) cloudNames = data.filter(r=>!reserved(r.token_qr)).map(r=>norm(r.name));
       } catch(e){}
     }
     render();
   }
-  $("refreshBtn").onclick = cekRsvp;
+  $("refreshBtn").onclick = () => { cekRsvp(); pushCloud(); };
   function statusTamu(nama){
     const n = norm(nama);
     if (cloudNames.includes(n)) return "✅ RSVP (cloud)";
@@ -102,7 +156,7 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
 
   window.hapusTamu = i => {
     if (!confirm("Hapus tamu ini dari daftar?")) return;
-    const t = getT(); t.splice(i,1); saveT(t); render();
+    const t = getT(); t.splice(i,1); saveT(t); render(); pushCloud();
   };
 
   function render(){
@@ -112,11 +166,13 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     $("statRsvp").textContent = t.length ? `• ${sudah} sudah RSVP` : "";
     $("daftarTamu").innerHTML = t.length ? t.map((x,i)=>{
       const link = linkUntuk(x.nama), pesan = pesanUntuk(x.nama);
+      const linkAttr = link.replace(/'/g,"");
+      const pesanArg = encodeURIComponent(pesan).replace(/'/g,"%27");
       return `<div class="ucapan"><b>${esc(x.nama)}</b> <span class="kecil">[${esc(x.kat)} • ${x.pax} pax]</span><br>`
         + `<span class="kecil">${statusTamu(x.nama)}</span><br>`
         + `<span class="kecil" style="word-break:break-all">${esc(link)}</span><br>`
-        + `<button class="btn putih kecil" onclick="copyText2('${link.replace(/'/g,"")}')">📋 Link</button> `
-        + `<button class="btn putih kecil" onclick="copyText2(decodeURIComponent('${encodeURIComponent(pesan).replace(/'/g,"%27")}'))">💬 Pesan</button> `
+        + `<button class="btn putih kecil" onclick="copyText2('${linkAttr}')">📋 Link</button> `
+        + `<button class="btn putih kecil" onclick="copyText2(decodeURIComponent('${pesanArg}'))">💬 Pesan</button> `
         + `<a class="btn biru kecil" target="_blank" href="${waLink(x.wa, pesan)}">↗ WA</a> `
         + `<button class="btn putih kecil" onclick="hapusTamu(${i})">🗑️</button></div>`;
     }).join("") : "<p class='kecil'>Belum ada tamu. Tambahkan di atas! 👆</p>";

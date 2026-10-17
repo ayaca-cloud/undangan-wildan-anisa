@@ -50,8 +50,9 @@
 
     <div class="doodle-card">
       <h3 class="hand" style="margin:0">📇 <span id="totalTamu">0</span> tamu <span class="kecil" id="statRsvp"></span></h3>
-      <div style="display:flex;gap:8px;margin:8px 0">
-        <button class="btn biru kecil" id="refreshBtn">🔄 Cek RSVP</button>
+      <p class="kecil" id="syncStatus" style="margin:4px 0">⏳ memuat...</p>
+      <div style="display:flex;gap:8px;margin:8px 0;flex-wrap:wrap">
+        <button class="btn biru kecil" id="refreshBtn">🔄 Cek RSVP + Sync</button>
         <button class="btn putih kecil" id="exportBtn">⬇️ Export CSV</button>
       </div>
       <div id="daftarTamu"></div>
