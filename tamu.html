@@ -3,63 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar Tamu — Wildan & Anisa</title>
+<title>Tidak Tersedia</title>
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="robots" content="noindex, nofollow">
 </head>
 <body>
-<div class="wrap" style="padding-top:24px">
+<div class="wrap" style="padding-top:80px">
   <div class="doodle-card kuning center">
-    <h1 class="hand" style="font-size:34px;margin:0">📋 Daftar Tamu</h1>
-    <p class="kecil">Ketik nama → jadi link personal + pesan WA siap kirim</p>
-    <p><a href="index.html">← undangan</a> • <a href="scan.html">scan panitia →</a></p>
-  </div>
-
-  <div class="doodle-card" id="pinBox">
-    <label>Masukkan PIN panitia</label>
-    <input id="pinInput" inputmode="numeric" placeholder="6 digit">
-    <button class="btn pink" id="pinBtn" style="width:100%">Masuk 🔓</button>
-  </div>
-
-  <div id="tamuArea" style="display:none">
-    <div class="doodle-card biru">
-      <label>Link dasar undangan (ganti kalau beda)</label>
-      <input id="baseUrl" placeholder="https://undangan-wildan-anisa.vercel.app">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div><label>Nama tamu</label><input id="fNama" placeholder="cth: Bpk. Budi Santoso"></div>
-        <div><label>No. WA (opsional)</label><input id="fWa" inputmode="tel" placeholder="cth: 0812xxxx"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div><label>Kategori</label>
-          <select id="fKat"><option>Keluarga</option><option>Saudara</option><option>Teman</option><option>Kerja</option><option>Lainnya</option></select>
-        </div>
-        <div><label>Pax</label><input id="fPax" type="number" min="1" max="10" value="2"></div>
-      </div>
-      <button class="btn pink" id="addBtn" style="width:100%">➕ Tambah Tamu</button>
-      <p class="kecil">Tips: tulis gelar (Bpk./Ibu) sekalian biar link-nya sopan. Spasi otomatis jadi `+`.</p>
-    </div>
-
-    <div class="doodle-card hijau">
-      <h3 class="hand" style="margin:0">💬 Template pesan WA</h3>
-      <p class="kecil">Pakai {nama} dan {link} — otomatis diganti per tamu.</p>
-      <textarea id="tplPesan" rows="9"></textarea>
-      <button class="btn putih kecil" id="tplReset">↩️ Kembalikan template awal</button>
-      <button class="btn putih kecil" id="tplSimpan">💾 Simpan template</button>
-    </div>
-
-    <div class="doodle-card">
-      <h3 class="hand" style="margin:0">📇 <span id="totalTamu">0</span> tamu <span class="kecil" id="statRsvp"></span></h3>
-      <p class="kecil" id="syncStatus" style="margin:4px 0">⏳ memuat...</p>
-      <div style="display:flex;gap:8px;margin:8px 0;flex-wrap:wrap">
-        <button class="btn biru kecil" id="refreshBtn">🔄 Cek RSVP + Sync</button>
-        <button class="btn putih kecil" id="exportBtn">⬇️ Export CSV</button>
-      </div>
-      <div id="daftarTamu"></div>
-    </div>
+    <div style="font-size:40px">🔒</div>
+    <h1 class="hand" style="font-size:34px;margin:6px 0">Undangan Ditutup</h1>
+    <p>Halaman ini sedang tidak tersedia.</p>
+    <p class="kecil">by Anisa</p>
   </div>
 </div>
-<script src="config.js"></script>
-<script src="tamu.js"></script>
 </body>
 </html>
