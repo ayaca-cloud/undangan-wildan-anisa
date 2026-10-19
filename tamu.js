@@ -176,10 +176,10 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
       return `<div class="ucapan"><b>${esc(x.nama)}</b> <span class="kecil">[${esc(x.kat)} • ${x.pax} pax]</span><br>`
         + `<span class="kecil">${statusTamu(x.nama)}</span><br>`
         + `<span class="kecil" style="word-break:break-all">${esc(link)}</span><br>`
-        + `<button class="btn putih kecil" onclick="copyText2('${linkAttr}')">📋 Link</button> `
-        + `<button class="btn putih kecil" onclick="copyText2(decodeURIComponent('${pesanArg}'))">💬 Pesan</button> `
-        + `<a class="btn biru kecil" target="_blank" href="${waLink(x.wa, pesan)}">↗ WA</a> `
-        + `<button class="btn putih kecil" onclick="hapusTamu(${i})">🗑️</button></div>`;
+        + `<button class="btn secondary kecil" onclick="copyText2('${linkAttr}')">📋 Link</button> `
+        + `<button class="btn secondary kecil" onclick="copyText2(decodeURIComponent('${pesanArg}'))">💬 Pesan</button> `
+        + `<a class="btn kecil" target="_blank" href="${waLink(x.wa, pesan)}">↗ WA</a> `
+        + `<button class="btn secondary kecil" onclick="hapusTamu(${i})">🗑️</button></div>`;
     }).join("") : "<p class='kecil'>Belum ada tamu. Tambahkan di atas! 👆</p>";
   }
 

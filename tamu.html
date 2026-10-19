@@ -5,56 +5,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daftar Tamu — Wildan & Anisa</title>
 <meta name="robots" content="noindex, nofollow">
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="invitation.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  .tamu-wrap{max-width:760px;margin:0 auto;padding:26px 18px 70px}
+  .tamu-wrap .event-card{margin-bottom:18px}
+  .tamu-wrap h3{margin-top:0}
+</style>
 </head>
 <body>
-<div class="wrap" style="padding-top:24px">
-  <div class="doodle-card kuning center">
-    <h1 class="hand" style="font-size:34px;margin:0">📋 Daftar Tamu</h1>
-    <p class="kecil">Ketik nama → jadi link personal + pesan WA siap kirim</p>
-    <p><a href="index.html">← undangan</a> • <a href="scan.html">scan panitia →</a></p>
+<div class="tamu-wrap">
+  <div class="section-head">
+    <div class="eyebrow">Panitia · Wildan &amp; Anisa</div>
+    <h2 class="script">Daftar Tamu</h2>
+    <p class="small">Ketik nama → jadi link personal + pesan WA siap kirim</p>
+    <p class="small"><a href="index.html">← undangan</a> • <a href="scan.html">panitia (QR) →</a></p>
   </div>
 
-  <div class="doodle-card" id="pinBox">
-    <label>Masukkan PIN panitia</label>
+  <div class="form-card" id="pinBox">
+    <label for="pinInput">Masukkan PIN panitia</label>
     <input id="pinInput" inputmode="numeric" placeholder="6 digit">
-    <button class="btn pink" id="pinBtn" style="width:100%">Masuk 🔓</button>
+    <button class="btn" id="pinBtn" style="width:100%;margin-top:16px">Masuk 🔓</button>
   </div>
 
   <div id="tamuArea" style="display:none">
-    <div class="doodle-card biru">
-      <label>Link dasar undangan (ganti kalau beda)</label>
+    <div class="event-card">
+      <h3>➕ Tambah Tamu</h3>
+      <label for="baseUrl">Link dasar undangan (ganti kalau beda)</label>
       <input id="baseUrl" placeholder="https://undangan-wildan-anisa.vercel.app">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div><label>Nama tamu</label><input id="fNama" placeholder="cth: Bpk. Budi Santoso"></div>
-        <div><label>No. WA (opsional)</label><input id="fWa" inputmode="tel" placeholder="cth: 0812xxxx"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label for="fNama">Nama tamu</label><input id="fNama" placeholder="cth: Bpk. Budi Santoso"></div>
+        <div><label for="fWa">No. WA (opsional)</label><input id="fWa" inputmode="tel" placeholder="cth: 0812xxxx"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div><label>Kategori</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label for="fKat">Kategori</label>
           <select id="fKat"><option>Keluarga</option><option>Saudara</option><option>Teman</option><option>Kerja</option><option>Lainnya</option></select>
         </div>
-        <div><label>Pax</label><input id="fPax" type="number" min="1" max="10" value="2"></div>
+        <div><label for="fPax">Pax</label><input id="fPax" type="number" min="1" max="10" value="2"></div>
       </div>
-      <button class="btn pink" id="addBtn" style="width:100%">➕ Tambah Tamu</button>
-      <p class="kecil">Tips: tulis gelar (Bpk./Ibu) sekalian biar link-nya sopan. Spasi otomatis jadi `+`.</p>
+      <button class="btn" id="addBtn" style="width:100%;margin-top:16px">➕ Tambah Tamu</button>
+      <p class="small">Tips: tulis gelar (Bpk./Ibu) sekalian biar link-nya sopan.</p>
     </div>
 
-    <div class="doodle-card hijau">
-      <h3 class="hand" style="margin:0">💬 Template pesan WA</h3>
-      <p class="kecil">Pakai {nama} dan {link} — otomatis diganti per tamu.</p>
+    <div class="event-card">
+      <h3>💬 Template pesan WA</h3>
+      <p class="small">Pakai {nama} dan {link} — otomatis diganti per tamu.</p>
       <textarea id="tplPesan" rows="9"></textarea>
-      <button class="btn putih kecil" id="tplReset">↩️ Kembalikan template awal</button>
-      <button class="btn putih kecil" id="tplSimpan">💾 Simpan template</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn secondary kecil" id="tplReset">↩️ Template awal</button>
+        <button class="btn secondary kecil" id="tplSimpan">💾 Simpan template</button>
+      </div>
     </div>
 
-    <div class="doodle-card">
-      <h3 class="hand" style="margin:0">📇 <span id="totalTamu">0</span> tamu <span class="kecil" id="statRsvp"></span></h3>
-      <p class="kecil" id="syncStatus" style="margin:4px 0">⏳ memuat...</p>
+    <div class="event-card">
+      <h3>📇 <span id="totalTamu">0</span> tamu <span class="small" id="statRsvp"></span></h3>
+      <p class="small" id="syncStatus" style="margin:4px 0">⏳ memuat...</p>
       <div style="display:flex;gap:8px;margin:8px 0;flex-wrap:wrap">
-        <button class="btn biru kecil" id="refreshBtn">🔄 Cek RSVP + Sync</button>
-        <button class="btn putih kecil" id="exportBtn">⬇️ Export CSV</button>
+        <button class="btn secondary kecil" id="refreshBtn">🔄 Cek RSVP + Sync</button>
+        <button class="btn secondary kecil" id="exportBtn">⬇️ Export CSV</button>
       </div>
       <div id="daftarTamu"></div>
     </div>
