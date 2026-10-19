@@ -30,5 +30,5 @@ const CONFIG = {
   // Musik: JANGAN commit lagu "Perfect - Ed Sheeran" (copyright, bisa kena takedown).
   // Taruh file mp3 bebas-copyright dengan nama musik.mp3 di folder ini,
   // atau isi URL mp3 di bawah. Default pakai lagu romantis gratis (Bensound).
-  musicSrc: "https://www.bensound.com/bensound-music/bensound-tenderness.mp3",
+  musicSrc: "assets/musik/lagu.mp3",
 };
