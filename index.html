@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wildan & Anisa — Undangan Pernikahan</title>
 <meta property="og:title" content="Undangan Pernikahan Wildan & Anisa">
-<meta property="og:description" content="Assalamualaikum, mohon doa restu. Klik untuk buka undangan. Ahad, 6 Des 2026">
+<meta property="og:description" content="Assalamualaikum, mohon doa restu. Ahad, 6 Des 2026">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="invitation.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -21,24 +19,21 @@
 
 <!-- COVER -->
 <div id="cover">
-  <div class="cover-box">
-    <div>✿ ✿ ✿</div>
-    <p class="kecil">Assalamualaikum Wr. Wb.<br>Undangan Pernikahan</p>
-    <h1 class="hand nama-besar">Wildan & Anisa</h1>
-    <svg class="squiggle" width="180" viewBox="0 0 180 18"><path d="M2 9 Q 20 2 40 9 T 80 9 T 120 9 T 178 9" fill="none" stroke="#2B2B2B" stroke-width="2.5" stroke-linecap="round"/></svg>
-    <p class="kecil">Kepada Yth.<br>Bapak/Ibu/Saudara/i:</p>
-    <h2 id="namaTamu">Tamu Undangan</h2>
-    <p class="kecil">*maaf bila ada salah penulisan nama & gelar</p>
-    <button class="btn pink" id="bukaBtn">✉️ Buka Undangan</button>
-    <p class="kecil">06 • 12 • 2026</p>
+  <div class="cover-copy">
+    <div class="eyebrow">A little comic about forever</div>
+    <h1>The Wedding<br><span class="script">of Wildan &amp; Anisa</span></h1>
+    <div class="date-pill">AHAD · 06 DESEMBER 2026</div>
+    <p class="cover-to">Assalamualaikum Wr. Wb.<br>Kepada Yth. Bapak/Ibu/Saudara/i:<br>
+      <b id="namaTamu">Tamu Undangan</b><br>
+      <span class="kecil">*maaf bila ada salah penulisan nama &amp; gelar</span></p>
+    <button class="btn" id="bukaBtn">Buka Undangan ♡</button>
   </div>
-</div>
-
-<div class="wrap">
-  <div class="center" style="padding-top:26px">
-    <p class="kecil" style="letter-spacing:4px;margin:0">✿ THE WEDDING OF ✿</p>
-    <div class="couple-art">
-      <!-- Cowok: wajah oval agak bundar + kacamata + peci -->
+  <div class="art" aria-label="Ilustrasi pasangan pengantin">
+    <div class="sun"></div>
+    <div class="hill"></div>
+    <div class="hill two"></div>
+    <div class="sticker one">And so, our story continues ♡</div>
+    <div class="cover-art-couple">
       <svg viewBox="0 0 140 178" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mempelai pria kartun">
         <path d="M30 178 C30 134 46 120 70 120 C94 120 110 134 110 178 Z" fill="#A0E7E5" stroke="#2B2B2B" stroke-width="3.5" stroke-linejoin="round"/>
         <path d="M58 120 L70 132 L82 120" fill="none" stroke="#2B2B2B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -47,7 +42,6 @@
         <circle cx="113" cy="72" r="8" fill="#FCD9B8" stroke="#2B2B2B" stroke-width="3"/>
         <ellipse cx="70" cy="68" rx="43" ry="47" fill="#FCD9B8" stroke="#2B2B2B" stroke-width="3.5"/>
         <path d="M28 62 C28 30 48 16 70 16 C92 16 112 30 112 62 L101 62 C99 48 87 42 70 42 C53 42 41 48 39 62 Z" fill="#2B2B2B" stroke="#2B2B2B" stroke-width="3" stroke-linejoin="round"/>
-        <path d="M40 30 Q70 20 100 30" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".35" stroke-linecap="round"/>
         <rect x="36" y="60" width="30" height="27" rx="9" fill="#FFFFFF" opacity=".45" stroke="#2B2B2B" stroke-width="3"/>
         <rect x="74" y="60" width="30" height="27" rx="9" fill="#FFFFFF" opacity=".45" stroke="#2B2B2B" stroke-width="3"/>
         <line x1="66" y1="70" x2="74" y2="70" stroke="#2B2B2B" stroke-width="3" stroke-linecap="round"/>
@@ -63,7 +57,6 @@
         <circle cx="70" cy="140" r="4.5" fill="#FFD166" stroke="#2B2B2B" stroke-width="2.5"/>
       </svg>
       <div class="love">💕</div>
-      <!-- Cewek: hijab + wajah oval agak bundar + kacamata -->
       <svg viewBox="0 0 140 178" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mempelai wanita kartun berhijab">
         <path d="M46 178 L56 132 Q70 124 84 132 L94 178 Z" fill="#E3F2FF" stroke="#2B2B2B" stroke-width="3.5" stroke-linejoin="round"/>
         <path d="M70 8 C40 8 26 36 27 74 C28 102 31 126 33 150 L107 150 C109 126 112 102 113 74 C114 36 100 8 70 8 Z" fill="#FF8FA3" stroke="#2B2B2B" stroke-width="3.5" stroke-linejoin="round"/>
@@ -89,112 +82,258 @@
         <circle cx="70" cy="132" r="3.5" fill="#FF8FA3" stroke="#2B2B2B" stroke-width="2"/>
       </svg>
     </div>
-    <h1 class="hand" style="font-size:46px;margin:2px 0;line-height:1">Wildan & Anisa</h1>
-    <p style="margin:4px 0"><b>Ahad, 6 Desember 2026</b></p>
-    <svg class="squiggle" width="180" viewBox="0 0 180 18"><path d="M2 9 Q 20 2 40 9 T 80 9 T 120 9 T 178 9" fill="none" stroke="#2B2B2B" stroke-width="2.5" stroke-linecap="round"/></svg>
-    <p class="hand" style="font-size:30px;margin:6px 0">Bismillahirrahmanirrahim</p>
-    <p>Dengan penuh sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami:</p>
-  </div>
-
-  <!-- MEMPELAI -->
-  <div class="doodle-card coral center">
-    <div class="pasangan-row">
-      <div>
-        <div class="avatar-doodle" style="background:#FFE3EC">W</div>
-        <h2 class="hand" style="font-size:34px;margin:8px 0 0">Wildan</h2>
-        <p class="kecil">Putra dari<br><b><span id="ayahPria">Alm Bpk. Sudarmin</span> & <span id="ibuPria">Ibu Nani</span></b></p>
-      </div>
-      <div style="font-size:40px">&</div>
-      <div>
-        <div class="avatar-doodle" style="background:#E3F2FF">A</div>
-        <h2 class="hand" style="font-size:34px;margin:8px 0 0">Anisa</h2>
-        <p class="kecil">Putri dari<br><b><span id="ayahWanita">Bpk. Edi</span> & <span id="ibuWanita">Ibu. Isal</span></b></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider">〜 ✿ 〜 ✿ 〜</div>
-
-  <!-- COUNTDOWN -->
-  <div class="doodle-card kuning center">
-    <h2 class="hand" style="font-size:32px;margin:0">Save The Date!</h2>
-    <p><b>Ahad, 6 Desember 2026</b></p>
-    <div class="count-grid">
-      <div class="count-box"><b id="cdHari">0</b><span>Hari</span></div>
-      <div class="count-box"><b id="cdJam">0</b><span>Jam</span></div>
-      <div class="count-box"><b id="cdMenit">0</b><span>Menit</span></div>
-      <div class="count-box"><b id="cdDetik">0</b><span>Detik</span></div>
-    </div>
-    <button class="btn biru kecil" id="saveCal">📅 Simpan ke Kalender</button>
-  </div>
-
-  <!-- AKAD & RESEPSI -->
-  <div class="doodle-card hijau center">
-    <h3 class="hand" style="font-size:30px">💍 Akad Nikah</h3>
-    <p><b>Ahad, 6 Des 2026 • 08.00 WIB</b><br><span id="alamatAkad">Kediaman Mempelai Wanita, Jl. Remaja Gang PLN. No 4A (Mushola At-Taufiq)</span></p>
-    <a class="btn putih kecil" id="mapsAkad" target="_blank" href="https://maps.app.goo.gl/QifXApQSj4L72tJa8">🗺️ Buka Maps</a>
-  </div>
-  <div class="doodle-card biru center">
-    <h3 class="hand" style="font-size:30px">🥳 Resepsi</h3>
-    <p><b>Ahad, 6 Des 2026 • 10.00 WIB — selesai</b><br><span id="alamatResepsi">Jl. Remaja Gang PLN (seberang jati 2/gang sebrang titik maps)</span></p>
-    <a class="btn putih kecil" id="mapsResepsi" target="_blank" href="https://maps.app.goo.gl/QifXApQSj4L72tJa8">🗺️ Rute ke Lokasi</a>
-  </div>
-
-  <div class="divider">✉﹏ RSVP ﹏✉</div>
-  <!-- RSVP -->
-  <div class="doodle-card kuning">
-    <h3 class="hand" style="font-size:30px;margin:0">Konfirmasi Kehadiran</h3>
-    <p class="kecil">Isi dulu, langsung dapat QR tiket masuk!</p>
-    <label>Nama lengkap</label>
-    <input id="rsvpNama" placeholder="cth: Budi + Istri">
-    <label>Kehadiran</label>
-    <select id="rsvpHadir">
-      <option value="ya">InsyaAllah Hadir 🎉</option>
-      <option value="tidak">Berhalangan 🙏</option>
-      <option value="ragu">Masih ragu 🤔</option>
-    </select>
-    <label>Jumlah tamu (termasuk kamu)</label>
-    <input id="rsvpPax" type="number" min="1" max="5" value="1">
-    <button class="btn pink" id="rsvpBtn" style="width:100%">Kirim & Buat QR Saya 🎟️</button>
-    <div id="qrBox" style="display:none;margin-top:14px">
-      <p><b>🎟️ QR Tiket Kamu:</b></p>
-      <div id="qrImg" style="display:flex;justify-content:center"></div>
-      <p><b id="qrKode" style="font-size:20px"></b></p>
-      <p class="kecil">Tunjukkan QR ini ke panitia di pintu masuk.<br>Bisa screenshot / download.</p>
-      <button class="btn putih kecil" id="qrDownload">⬇️ Download QR</button>
-      <a class="btn biru kecil" id="qrShare" target="_blank" href="#">↗ Share WA</a>
-    </div>
-  </div>
-
-  <!-- AMPLOP -->
-  <div class="doodle-card coral">
-    <h3 class="hand center" style="font-size:30px;margin:0">💌 Tanda Kasih</h3>
-    <p class="center kecil">Doa restu sudah cukup, tapi kalau mau berbagi tanda kasih:</p>
-    <p><b>🌊 SeaBank 9010 2930 6740<br>a.n. Anisa Kusuma Brata Putri</b></p>
-    <div class="amplop-norek" id="norek1">9010 2930 6740</div>
-    <p class="center"><button class="btn putih kecil" onclick="copyText('901029306740')">📋 Copy No. Rekening</button></p>
-  </div>
-
-  <!-- UCAPAN -->
-  <div class="doodle-card hijau">
-    <h3 class="hand" style="font-size:30px;margin:0">💬 Ucapan & Doa</h3>
-    <label>Nama</label><input id="wishNama" placeholder="Nama kamu">
-    <label>Ucapan</label><textarea id="wishPesan" rows="3" placeholder="Barakallahu laka..."></textarea>
-    <button class="btn" id="wishBtn" style="width:100%">Kirim Ucapan 💌</button>
-    <div id="wishList" style="margin-top:12px"></div>
-  </div>
-
-  <div class="doodle-card center">
-    <p>Merupakan suatu kehormatan & kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.</p>
-    <p><b>Wassalamualaikum Wr. Wb.</b></p>
-    <h2 class="hand" style="font-size:36px">Wildan & Anisa ♡</h2>
-    <div class="watermark">
-      <span class="kecil">✨ dibuat dengan ♥ oleh ✨</span><br>
-      <span class="brand-badge">Helena Tech</span>
-      <p class="by">by Anisa • <a href="scan.html">masuk sebagai panitia →</a></p>
-    </div>
+    <div class="sticker two">a new chapter together</div>
   </div>
 </div>
+
+<!-- NAV -->
+<nav class="topbar">
+  <div class="brand">W &amp; A · 06.12.2026</div>
+  <div class="menu">
+    <a href="#story">Our Story</a>
+    <a href="#event">The Day</a>
+    <a href="#countdown">Countdown</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#rsvp">RSVP</a>
+    <a href="#gift">Gift</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- MEMPELAI -->
+  <section id="couple">
+    <div class="section-head">
+      <div class="eyebrow">Bismillahirrahmanirrahim</div>
+      <h2 class="script">The Happy Couple ♡</h2>
+      <p>Dengan penuh sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.</p>
+    </div>
+    <div class="events">
+      <article class="event-card center">
+        <div class="couple-badge" style="background:#ffe3ec">W</div>
+        <div class="caption">The groom</div>
+        <h3>Wildan</h3>
+        <p class="meta">Putra dari<br><b><span id="ayahPria">Alm Bpk. Sudarmin</span> &amp; <span id="ibuPria">Ibu Nani</span></b></p>
+      </article>
+      <article class="event-card center">
+        <div class="couple-badge" style="background:#e3f2ff">A</div>
+        <div class="caption">The bride</div>
+        <h3>Anisa</h3>
+        <p class="meta">Putri dari<br><b><span id="ayahWanita">Bpk. Edi</span> &amp; <span id="ibuWanita">Ibu. Isal</span></b></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section id="story">
+    <div class="section-head">
+      <div class="eyebrow">Chapter 01 · Once upon a time</div>
+      <h2 class="script">Our Story ♡</h2>
+      <p>Setiap cerita punya awal. Ini beberapa panel kecil dari cerita kami.</p>
+    </div>
+    <div class="story-grid">
+      <article class="panel">
+        <div class="panel-art">☕ 💬</div>
+        <div class="caption">Panel 01 · First meet</div>
+        <h3>Awal yang sederhana</h3>
+        <p>Siapa sangka obrolan biasa bisa jadi awal dari cerita sepanjang ini?</p>
+      </article>
+      <article class="panel">
+        <div class="panel-art">🌷 😊</div>
+        <div class="caption">Panel 02 · Getting closer</div>
+        <h3>Pelan-pelan jadi rumah</h3>
+        <p>Dari berbagi cerita kecil, sampai jadi orang pertama yang ingin kami kabari.</p>
+      </article>
+      <article class="panel">
+        <div class="panel-art">💍 🌿</div>
+        <div class="caption">Panel 03 · The promise</div>
+        <h3>Satu langkah lebih dekat</h3>
+        <p>Kami memilih untuk berjalan ke arah yang sama dan saling menggenggam.</p>
+      </article>
+      <article class="panel">
+        <div class="panel-art">🐈 🤍</div>
+        <div class="caption">Panel 04 · To forever</div>
+        <h3>Bab baru dimulai</h3>
+        <p>Dan sekarang, kami siap menulis halaman-halaman berikutnya bersama.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- THE BIG DAY -->
+  <section id="event">
+    <div class="section-head">
+      <div class="eyebrow">Chapter 02 · Save the date</div>
+      <h2 class="script">The Big Day</h2>
+      <p>Dengan penuh rasa syukur, kami mengundang keluarga dan sahabat untuk hadir dan berbagi kebahagiaan.</p>
+    </div>
+    <div class="events">
+      <article class="event-card">
+        <div class="event-icon">🕌</div>
+        <div class="caption">The ceremony</div>
+        <h3>Akad Nikah</h3>
+        <div class="meta">Ahad, 06 Desember 2026<br>08.00 WIB<br><strong><span id="alamatAkad">Kediaman Mempelai Wanita, Jl. Remaja Gang PLN. No 4A (Mushola At-Taufiq)</span></strong></div>
+        <a class="btn secondary kecil" id="mapsAkad" target="_blank" href="https://maps.app.goo.gl/QifXApQSj4L72tJa8">Lihat Lokasi ↗</a>
+      </article>
+      <article class="event-card">
+        <div class="event-icon">🌸</div>
+        <div class="caption">The celebration</div>
+        <h3>Resepsi</h3>
+        <div class="meta">Ahad, 06 Desember 2026<br>10.00 WIB — selesai<br><strong><span id="alamatResepsi">Jl. Remaja Gang PLN (seberang jati 2/gang sebrang titik maps)</span></strong></div>
+        <a class="btn secondary kecil" id="mapsResepsi" target="_blank" href="https://maps.app.goo.gl/QifXApQSj4L72tJa8">Rute ke Lokasi ↗</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown">
+    <div class="count-wrap">
+      <div class="eyebrow">The days are getting closer</div>
+      <h2 class="script">Counting down to our day ♡</h2>
+      <p>06 Desember 2026</p>
+      <div class="count-grid">
+        <div class="count-box"><b id="cdHari">—</b><span>HARI</span></div>
+        <div class="count-box"><b id="cdJam">—</b><span>JAM</span></div>
+        <div class="count-box"><b id="cdMenit">—</b><span>MENIT</span></div>
+        <div class="count-box"><b id="cdDetik">—</b><span>DETIK</span></div>
+      </div>
+      <button class="btn secondary kecil" id="saveCal">📅 Simpan ke Kalender</button>
+      <p class="small" style="margin-top:12px">Counting down to a little forever.</p>
+    </div>
+  </section>
+
+  <!-- LOKASI -->
+  <section id="location">
+    <div class="section-head">
+      <div class="eyebrow">Chapter 03 · Find us</div>
+      <h2 class="script">Lokasi Acara</h2>
+      <p>Semoga perjalananmu lancar dan kita bisa bertemu di hari bahagia nanti.</p>
+    </div>
+    <div class="map-card">
+      <div class="map-art">📍</div>
+      <div>
+        <h3>Kediaman Mempelai Wanita</h3>
+        <p class="meta"><span id="alamatAkad2">Jl. Remaja Gang PLN. No 4A (Mushola At-Taufiq)</span><br>Sebrang Jati 2 / gang sebrang titik maps</p>
+        <a class="btn" href="https://maps.app.goo.gl/QifXApQSj4L72tJa8" target="_blank" rel="noreferrer">Buka Google Maps ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERI -->
+  <section id="gallery">
+    <div class="section-head">
+      <div class="eyebrow">Chapter 04 · Little moments</div>
+      <h2 class="script">Our Gallery ♡</h2>
+      <p>Beberapa momen kecil, satu cerita besar. Slot ini bisa diganti dengan foto prewedding.</p>
+    </div>
+    <div class="gallery">
+      <div class="photo">🌿</div>
+      <div class="photo">🤍</div>
+      <div class="photo">🌷</div>
+    </div>
+  </section>
+
+  <!-- DRESSCODE -->
+  <section id="dresscode">
+    <div class="section-head">
+      <div class="eyebrow">A little style note</div>
+      <h2 class="script">Dresscode (optional)</h2>
+      <p>Datang dengan outfit terbaikmu — kalau mau, palet warna ini bisa jadi inspirasi.</p>
+      <div class="dress">
+        <div class="swatch" style="background:#f4e8d9"></div>
+        <div class="swatch" style="background:#d9b6a7"></div>
+        <div class="swatch" style="background:#e8d8c9"></div>
+        <div class="swatch" style="background:#929987"></div>
+        <div class="swatch" style="background:#4a4941"></div>
+      </div>
+      <div class="small">IVORY · DUSTY ROSE · SAGE · MOCHA</div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp">
+    <div class="section-head">
+      <div class="eyebrow">Chapter 05 · Be there?</div>
+      <h2 class="script">Will you be there? ♡</h2>
+      <p>Konfirmasi kehadiranmu dan dapatkan QR tiket masuk untuk ditunjukkan ke panitia.</p>
+    </div>
+    <form class="form-card" id="rsvpForm" onsubmit="return false">
+      <label for="rsvpNama">Nama lengkap</label>
+      <input id="rsvpNama" placeholder="cth: Budi + Istri">
+      <label for="rsvpHadir">Kehadiran</label>
+      <select id="rsvpHadir">
+        <option value="ya">InsyaAllah Hadir 🎉</option>
+        <option value="tidak">Berhalangan 🙏</option>
+        <option value="ragu">Masih ragu 🤔</option>
+      </select>
+      <label for="rsvpPax">Jumlah tamu (termasuk kamu)</label>
+      <input id="rsvpPax" type="number" min="1" max="5" value="1">
+      <button class="btn" id="rsvpBtn" type="button" style="width:100%;margin-top:16px">Kirim &amp; Buat QR Saya 🎟️</button>
+      <div id="qrBox" style="display:none">
+        <p class="center"><b>🎟️ QR Tiket Kamu:</b></p>
+        <div id="qrImg"></div>
+        <p class="center"><b id="qrKode"></b></p>
+        <p class="small center">Tunjukkan QR ini ke panitia di pintu masuk.<br>Bisa screenshot / download.</p>
+        <p class="center">
+          <button class="btn secondary kecil" id="qrDownload" type="button">⬇️ Download QR</button>
+          <a class="btn secondary kecil" id="qrShare" target="_blank" href="#">↗ Share WA</a>
+        </p>
+      </div>
+    </form>
+  </section>
+
+  <!-- MESSAGES / UCAPAN -->
+  <section id="messages">
+    <div class="section-head">
+      <div class="eyebrow">A note from you</div>
+      <h2 class="script">Messages for us ♡</h2>
+      <p>Tinggalkan doa dan ucapan terbaikmu untuk kami.</p>
+    </div>
+    <div class="form-card" style="margin-bottom:24px">
+      <label for="wishNama">Nama</label>
+      <input id="wishNama" placeholder="Nama kamu">
+      <label for="wishPesan">Ucapan &amp; doa</label>
+      <textarea id="wishPesan" rows="3" placeholder="Barakallahu laka..."></textarea>
+      <button class="btn" id="wishBtn" type="button" style="width:100%;margin-top:16px">Kirim Ucapan 💌</button>
+    </div>
+    <div id="wishList"></div>
+  </section>
+
+  <!-- GIFT -->
+  <section id="gift">
+    <div class="gift">
+      <div class="eyebrow">A little wedding gift</div>
+      <h2 class="script">Wedding Gift ♡</h2>
+      <p>Doa dan kehadiranmu adalah hadiah terindah bagi kami. Jika ingin mengirim tanda kasih:</p>
+      <div class="panel" style="text-align:left;margin:18px 0">
+        <div class="caption">Bank transfer · SeaBank</div>
+        <strong>🌊 SeaBank</strong>
+        <div class="amplop-norek" id="norek1">9010 2930 6740</div>
+        <p class="small" style="margin:0">a.n. Anisa Kusuma Brata Putri</p>
+        <p style="margin-top:12px"><button class="btn secondary kecil" type="button" onclick="copyText('901029306740')">📋 Salin nomor</button></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PENUTUP -->
+  <section id="closing" style="padding-top:20px">
+    <div class="closing">
+      <p>Merupakan suatu kehormatan &amp; kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.</p>
+      <p><b>Wassalamualaikum Wr. Wb.</b></p>
+      <h2 class="script">Wildan &amp; Anisa ♡</h2>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Made with love, one little panel at a time. ♡<br>
+  <span class="small">W &amp; A · 06.12.2026</span>
+  <div class="watermark">
+    <span class="small">✨ dibuat dengan ♥ oleh ✨</span><br>
+    <span class="brand-badge">Helena Tech</span>
+    <p class="by">by Anisa • <a href="scan.html">masuk sebagai panitia →</a></p>
+  </div>
+</footer>
 
 <script src="config.js"></script>
 <script src="app.js"></script>
