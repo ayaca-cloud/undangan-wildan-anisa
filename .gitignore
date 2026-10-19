@@ -1,2 +1,5 @@
 musik.mp3
 .DS_Store
+
+# foto asli (mentah) — jangan ikut ke git biar repo ringan. Yang dipakai: *_jpg hasil kompres.
+assets/foto/*.png
