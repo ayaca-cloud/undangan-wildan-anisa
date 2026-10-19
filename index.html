@@ -8,7 +8,6 @@
 <meta property="og:description" content="Assalamualaikum, mohon doa restu. Ahad, 6 Des 2026">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="invitation.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -239,7 +238,7 @@
     <div class="section-head">
       <div class="eyebrow">Chapter 04 · Be there?</div>
       <h2 class="script">Will you be there? ♡</h2>
-      <p>Konfirmasi kehadiranmu dan dapatkan QR tiket masuk untuk ditunjukkan ke panitia.</p>
+      <p>Konfirmasi kehadiranmu di sini ya. Saat datang, tinggal scan QR dari panitia di pintu masuk.</p>
     </div>
     <form class="form-card" id="rsvpForm" onsubmit="return false">
       <label for="rsvpNama">Nama lengkap</label>
@@ -252,17 +251,8 @@
       </select>
       <label for="rsvpPax">Jumlah tamu (termasuk kamu)</label>
       <input id="rsvpPax" type="number" min="1" max="5" value="1">
-      <button class="btn" id="rsvpBtn" type="button" style="width:100%;margin-top:16px">Kirim &amp; Buat QR Saya 🎟️</button>
-      <div id="qrBox" style="display:none">
-        <p class="center"><b>🎟️ QR Tiket Kamu:</b></p>
-        <div id="qrImg"></div>
-        <p class="center"><b id="qrKode"></b></p>
-        <p class="small center">Tunjukkan QR ini ke panitia di pintu masuk.<br>Bisa screenshot / download.</p>
-        <p class="center">
-          <button class="btn secondary kecil" id="qrDownload" type="button">⬇️ Download QR</button>
-          <a class="btn secondary kecil" id="qrShare" target="_blank" href="#">↗ Share WA</a>
-        </p>
-      </div>
+      <button class="btn" id="rsvpBtn" type="button" style="width:100%;margin-top:16px">Kirim Konfirmasi ✉</button>
+      <p id="rsvpHasil" class="ucapan" style="display:none;margin-top:16px"></p>
     </form>
   </section>
 

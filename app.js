@@ -80,50 +80,22 @@
     const guests = getGuests();
     guests.push({ nama, hadir, pax, token, checked_in_at: null, created_at: new Date().toISOString() });
     saveGuests(guests);
-    localStorage.setItem("wilda_anisa_myqr", JSON.stringify({nama, token}));
-    tampilQR(nama, token);
 
-    // Simpan ke cloud (Supabase) biar bisa di-scan dari HP panitia yang beda
+    // Simpan ke cloud (Supabase) biar panitia lihat konfirmasinya
     if (sb) {
       try {
         await sb.from("guests").insert([{ name: nama, token_qr: token, quota: pax }]);
         await sb.from("rsvps").insert([{ guest_name: nama, attending: hadir, pax }]);
       } catch(e) { console.log("Supabase RSVP gagal (tetap kesimpen lokal):", e); }
     }
-  };
 
-  function tampilQR(nama, token){
-    $("qrBox").style.display = "block";
-    $("qrKode").textContent = token;
-    const payload = JSON.stringify({ t: token, n: nama });
-    $("qrImg").innerHTML = "";
-    // qrcodejs (cdnjs): new QRCode(el, {text, width, height})
-    if (typeof QRCode !== "undefined") {
-      try {
-        new QRCode($("qrImg"), { text: payload, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
-      } catch(e) {
-        $("qrImg").innerHTML = "<p class='kecil'>Gagal buat QR: "+e.message+"</p>";
-      }
-    } else {
-      $("qrImg").innerHTML = "<p><b>"+token+"</b></p><p class='kecil'>Lib QR belum ke-load (offline?). Kode manual di atas tetap bisa dipakai panitia.</p>";
+    $("rsvpBtn").disabled = true;
+    const box = $("rsvpHasil");
+    if (box) {
+      box.style.display = "block";
+      box.innerHTML = "<b>Terima kasih, " + escapeHtml(nama) + "! ✓</b><br>Konfirmasimu sudah tercatat."
+        + "<br><span class='small'>Saat datang, tunjukkan/scan QR dari panitia di pintu masuk ya.</span>";
     }
-    $("qrShare").href = "https://wa.me/?text=" + encodeURIComponent("Saya "+nama+" ("+token+") konfirmasi hadir di nikahan Wildan & Anisa! ");
-    $("qrBox").scrollIntoView({behavior:"smooth"});
-  }
-
-  // tampilkan QR lama kalau ada
-  try {
-    const my = JSON.parse(localStorage.getItem("wilda_anisa_myqr")||"null");
-    if (my) tampilQR(my.nama, my.token);
-  } catch {}
-
-  $("qrDownload").onclick = () => {
-    const img = document.querySelector("#qrImg img");
-    const c = document.querySelector("#qrImg canvas");
-    if (img && img.src) { const a = document.createElement("a"); a.download = "qr-undangan.png"; a.href = img.src; a.click(); return; }
-    if (!c) { alert("QR belum dibuat"); return; }
-    const a = document.createElement("a");
-    a.download = "qr-undangan.png"; a.href = c.toDataURL(); a.click();
   };
 
   // 7. Wishes (local + cloud)
