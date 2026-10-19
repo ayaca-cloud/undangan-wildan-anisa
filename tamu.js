@@ -124,6 +124,7 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     t.push({ nama, wa: $("fWa").value.trim(), kat: $("fKat").value, pax: parseInt($("fPax").value||"2"), tgl: new Date().toISOString() });
     saveT(t);
     $("fNama").value = ""; $("fWa").value = "";
+    halaman = totalHalaman(t.length);
     render(); cekRsvp(); pushCloud();
   };
   $("tplSimpan").onclick = () => { localStorage.setItem(LS_TPL, $("tplPesan").value); pushCloud(); alert("Template tersimpan (lokal + cloud)!"); render(); };
@@ -164,16 +165,33 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     const t = getT(); t.splice(i,1); saveT(t); render(); pushCloud();
   };
 
+  const PER_HALAMAN = 10;
+  let halaman = 1;
+  const totalHalaman = n => Math.max(1, Math.ceil(n / PER_HALAMAN));
+  window.gotoPage = p => {
+    const total = totalHalaman(getT().length);
+    halaman = Math.min(Math.max(1, p), total);
+    render();
+    const d = $("daftarTamu"); if (d && d.scrollIntoView) d.scrollIntoView({behavior:"smooth", block:"start"});
+  };
   function render(){
     const t = getT();
     $("totalTamu").textContent = t.length;
     const sudah = t.filter(x => statusTamu(x.nama).includes("✅")).length;
     $("statRsvp").textContent = t.length ? `• ${sudah} sudah RSVP` : "";
-    $("daftarTamu").innerHTML = t.length ? t.map((x,i)=>{
+
+    const total = totalHalaman(t.length);
+    if (halaman > total) halaman = total;
+    if (halaman < 1) halaman = 1;
+    const start = (halaman - 1) * PER_HALAMAN;
+    const lembar = t.slice(start, start + PER_HALAMAN);
+
+    const listHtml = t.length ? lembar.map((x, j)=>{
+      const i = start + j;
       const link = linkUntuk(x.nama), pesan = pesanUntuk(x.nama);
       const linkAttr = link.replace(/'/g,"");
       const pesanArg = encodeURIComponent(pesan).replace(/'/g,"%27");
-      return `<div class="ucapan"><b>${esc(x.nama)}</b> <span class="kecil">[${esc(x.kat)} • ${x.pax} pax]</span><br>`
+      return `<div class="ucapan"><b>${i+1}. ${esc(x.nama)}</b> <span class="kecil">[${esc(x.kat)} • ${x.pax} pax]</span><br>`
         + `<span class="kecil">${statusTamu(x.nama)}</span><br>`
         + `<span class="kecil" style="word-break:break-all">${esc(link)}</span><br>`
         + `<button class="btn secondary kecil" onclick="copyText2('${linkAttr}')">📋 Link</button> `
@@ -181,6 +199,20 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
         + `<a class="btn kecil" target="_blank" href="${waLink(x.wa, pesan)}">↗ WA</a> `
         + `<button class="btn secondary kecil" onclick="hapusTamu(${i})">🗑️</button></div>`;
     }).join("") : "<p class='kecil'>Belum ada tamu. Tambahkan di atas! 👆</p>";
+
+    let nav = "";
+    if (t.length > PER_HALAMAN) {
+      nav += `<div class="pager">`;
+      nav += `<button class="btn secondary kecil" ${halaman<=1?"disabled":""} onclick="gotoPage(${halaman-1})">← Sebelumnya</button>`;
+      for (let p=1; p<=total; p++){
+        nav += `<button class="btn ${p===halaman?"kecil":"secondary kecil"}" ${p===halaman?"disabled":""} onclick="gotoPage(${p})">${p}</button>`;
+      }
+      nav += `<button class="btn secondary kecil" ${halaman>=total?"disabled":""} onclick="gotoPage(${halaman+1})">Berikutnya →</button>`;
+      nav += `</div>`;
+      nav += `<p class="small center">Halaman ${halaman} / ${total} • total ${t.length} tamu</p>`;
+    }
+
+    $("daftarTamu").innerHTML = listHtml + nav;
   }
 
   $("exportBtn").onclick = () => {
