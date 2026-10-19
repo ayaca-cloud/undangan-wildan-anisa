@@ -3,15 +3,15 @@
    Basis desain dari inspo "undangan_comic_demo.html"
    ============================================================ */
 :root{
-  --paper:#fff9f0;--cream:#f6eadb;--ink:#493c34;--rose:#c9827d;
-  --sage:#89917d;--line:#d9c6b2;--shadow:0 12px 30px #70513b18;
+  --paper:#f7f2e8;--cream:#efe6d5;--ink:#3f3a31;--rose:#b07a52;
+  --sage:#7d865e;--line:#d9ccb6;--shadow:0 12px 30px #5b4a3422;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;background:var(--paper);color:var(--ink);
   font-family:Georgia,'Times New Roman',serif;
-  background-image:radial-gradient(#bba38a22 .8px,transparent .8px);
+  background-image:radial-gradient(#a9967a22 .8px,transparent .8px);
   background-size:12px 12px;
 }
 button,input,select,textarea{font:inherit}
@@ -28,7 +28,7 @@ img{max-width:100%}
 
 /* ---------- COVER (gate) ---------- */
 #cover{position:fixed;inset:0;z-index:100;background:var(--paper);
-  background-image:radial-gradient(#bba38a22 .8px,transparent .8px);background-size:12px 12px;
+  background-image:radial-gradient(#a9967a22 .8px,transparent .8px);background-size:12px 12px;
   overflow:auto;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center;
   padding:48px max(20px,calc((100vw - 1050px)/2));
   transition:transform .8s ease,opacity .8s ease}
@@ -40,7 +40,7 @@ img{max-width:100%}
   padding:0 10px;border-bottom:1px dashed var(--line)}
 .btn{border:0;background:var(--rose);color:#fff;border-radius:30px;padding:13px 20px;
   cursor:pointer;display:inline-block;text-decoration:none;font:12px Arial;letter-spacing:.5px;
-  box-shadow:0 4px 0 #a96560;margin-top:10px}
+  box-shadow:0 4px 0 #8d5f3c;margin-top:10px}
 .btn:hover{filter:brightness(1.04)}
 .btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
 .btn.kecil{padding:9px 14px}
@@ -49,13 +49,13 @@ img{max-width:100%}
   padding:10px 16px;font:12px Arial;letter-spacing:2px;margin:6px 0}
 .art{position:relative;min-height:440px;border:1px solid var(--line);
   border-radius:48% 48% 18px 18px;
-  background:linear-gradient(#dce4df,#f5d9c8 65%,#e8d3b8);overflow:hidden;
+  background:linear-gradient(#dde0d0,#edd7bd 65%,#ddc4a1);overflow:hidden;
   box-shadow:var(--shadow);display:flex;align-items:end;justify-content:center}
-.sun{position:absolute;top:12%;left:25%;width:160px;height:160px;background:#fff4d8;
+.sun{position:absolute;top:12%;left:25%;width:160px;height:160px;background:#f8eed6;
   border-radius:50%;opacity:.85}
 .hill{position:absolute;bottom:0;width:120%;height:40%;border-radius:50% 50% 0 0;
-  background:#a9b19a;left:-10%}
-.hill.two{height:28%;background:#7f8c76;left:10%;width:110%}
+  background:#9aa07f;left:-10%}
+.hill.two{height:28%;background:#6f7860;left:10%;width:110%}
 .sticker{position:absolute;z-index:3;background:#fff8e8;border:1px solid var(--line);
   padding:12px 15px;transform:rotate(-7deg);font-style:italic;box-shadow:var(--shadow);
   font-size:13px}
@@ -88,8 +88,8 @@ section{padding:75px 0;scroll-margin-top:70px}
 .story-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .panel{background:#fffdf8;border:1.5px solid var(--line);border-radius:15px;padding:16px;
   box-shadow:var(--shadow);position:relative;overflow:hidden}
-.panel:after{content:'\2665';position:absolute;right:12px;top:5px;color:#d6a19a;font-size:22px}
-.panel-art{height:150px;border-radius:10px;background:linear-gradient(145deg,#e6e7d9,#f5d4c8);
+.panel:after{content:'\2665';position:absolute;right:12px;top:5px;color:#c6ab8c;font-size:22px}
+.panel-art{height:150px;border-radius:10px;background:linear-gradient(145deg,#e3dcc8,#e6cbb4);
   display:grid;place-items:center;font-size:60px;margin-bottom:15px}
 .caption{font:11px Arial;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose)}
 .panel p,.event-card p{line-height:1.6;font-size:14px}
@@ -104,7 +104,7 @@ section{padding:75px 0;scroll-margin-top:70px}
   font-size:34px;border:1.5px solid var(--line);margin:0 auto 12px;background:#ffe3ec}
 
 /* ---------- countdown ---------- */
-.count-wrap{background:#e9eee6;border:1px solid #cbd2c5;border-radius:25px;padding:38px 20px;text-align:center}
+.count-wrap{background:#e8e2d3;border:1px solid #d2cab5;border-radius:25px;padding:38px 20px;text-align:center}
 .count-grid{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:24px 0}
 .count-box{min-width:75px;padding:14px 12px;background:#fffaf1;border:1px solid var(--line);border-radius:12px}
 .count-box strong,.count-box b{font-size:29px;display:block;font-weight:normal}
