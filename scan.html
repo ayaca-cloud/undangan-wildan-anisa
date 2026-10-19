@@ -3,56 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scan Panitia — Wildan & Anisa</title>
+<title>Panitia — Wildan & Anisa</title>
 <meta name="robots" content="noindex, nofollow">
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js"></script>
+<link rel="stylesheet" href="invitation.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  .panitia-wrap{max-width:640px;margin:0 auto;padding:26px 18px 70px}
+  .panitia-wrap .event-card{margin-bottom:18px;text-align:left}
+  .panitia-wrap .event-card.fokus{text-align:center}
+  .panitia-wrap h3{margin-top:0}
+</style>
 </head>
 <body>
-<div class="wrap" style="padding-top:24px">
-  <div class="doodle-card kuning center">
-    <h1 class="hand" style="font-size:34px;margin:0">🎥 Scan Panitia</h1>
-    <p class="kecil">Khusus penerima tamu • hubungi Wildan/Anisa untuk PIN</p>
-    <p><a href="index.html">← kembali ke undangan</a> • <a href="tamu.html">daftar tamu →</a></p>
+<div class="panitia-wrap">
+  <div class="section-head">
+    <div class="eyebrow">Panitia · Wildan &amp; Anisa</div>
+    <h2 class="script">Meja Penerima Tamu</h2>
+    <p class="small">Tunjukkan QR ke tamu • pantau kehadiran di sini</p>
+    <p class="small"><a href="index.html">← undangan</a> • <a href="tamu.html">daftar tamu →</a></p>
   </div>
 
-  <div class="doodle-card" id="pinBox">
-    <label>Masukkan PIN panitia</label>
+  <div class="form-card" id="pinBox">
+    <label for="pinInput">Masukkan PIN panitia</label>
     <input id="pinInput" inputmode="numeric" placeholder="6 digit">
-    <button class="btn pink" id="pinBtn" style="width:100%">Masuk 🔓</button>
+    <button class="btn" id="pinBtn" style="width:100%;margin-top:16px">Masuk 🔓</button>
   </div>
 
   <div id="scanArea" style="display:none">
-    <div class="doodle-card biru">
-      <video id="video" playsinline></video>
-      <div style="margin-top:10px;display:flex;gap:8px">
-        <button class="btn kecil" id="startBtn">▶️ Mulai Kamera</button>
-        <button class="btn putih kecil" id="stopBtn">⏹️ Stop</button>
-      </div>
-      <p class="kecil">Arahkan kamera ke QR tamu. Atau ketik manual di bawah.</p>
-      <label>Kode manual (cth: WDG-AB12CD)</label>
-      <input id="manualKode" placeholder="WDG-....">
-      <button class="btn biru kecil" id="manualBtn">Cek Manual 🔍</button>
-      <div id="hasil"></div>
-    </div>
-    <div class="doodle-card hijau center">
-      <h3 class="hand" style="margin:0">🔳 QR untuk Tamu (self check-in)</h3>
-      <p class="kecil">Tunjukin QR ini ke tamu → tamu scan pakai kamera HP / Google Lens → isi nama → kehadirannya langsung tercatat.</p>
-      <button class="btn biru" id="showQrBtn">Tampilkan QR</button>
+    <div class="event-card fokus">
+      <div class="event-icon">🔳</div>
+      <h3>QR untuk Tamu</h3>
+      <p class="small">Tunjukin QR ini ke tamu → tamu scan pakai kamera HP / Google Lens → isi nama → kehadirannya langsung tercatat.</p>
+      <button class="btn" id="showQrBtn">Tampilkan QR</button>
       <div id="qrTamu" style="display:none;margin-top:14px">
-        <div id="qrTamuImg" style="display:flex;justify-content:center"></div>
-        <p class="kecil" id="qrTamuUrl" style="word-break:break-all;margin-top:8px"></p>
-        <button class="btn putih kecil" onclick="window.print()">🖨️ Print QR</button>
+        <div id="qrTamuImg" style="display:flex;justify-content:center;background:#fff;padding:12px;border-radius:12px;border:1px solid var(--line);width:max-content;margin:0 auto"></div>
+        <p class="small" id="qrTamuUrl" style="word-break:break-all;margin-top:8px"></p>
+        <button class="btn secondary kecil" onclick="window.print()">🖨️ Print QR</button>
       </div>
     </div>
-    <div class="doodle-card hijau">
-      <h3 class="hand" style="margin:0">📋 Daftar check-in (HP ini)</h3>
+
+    <div class="event-card">
+      <h3>📋 Kehadiran Tamu</h3>
+      <p class="small" id="syncStatus" style="margin:4px 0">⏳ memuat...</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">
+        <button class="btn secondary kecil" onclick="refreshDaftar()">🔄 Refresh</button>
+        <button class="btn secondary kecil" id="exportBtn">⬇️ Export CSV</button>
+      </div>
       <div id="daftarTamu"></div>
-      <button class="btn biru kecil" onclick="refreshDaftar()">🔄 Refresh daftar</button>
-      <button class="btn putih kecil" id="exportBtn">⬇️ Export CSV</button>
     </div>
   </div>
 </div>
