@@ -132,16 +132,20 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
   $("tplPesan").addEventListener("input", () => { localStorage.setItem(LS_TPL, $("tplPesan").value); pushCloudSoon(); });
 
   // Status RSVP: cocokkan nama dengan data cloud + lokal (abaikan baris config)
-  let cloudNames = [], localNames = [];
+  let cloudNames = [], localNames = [], cloudChecked = {};
   const reserved = tk => (tk||"").startsWith("__");
   function norm(s){ return (s||"").toLowerCase().replace(/^(bpk|ibu|pak|bu|sdr|saudara)\.?\s+/,"").trim(); }
   async function cekRsvp(){
-    cloudNames = []; localNames = [];
+    cloudNames = []; localNames = []; cloudChecked = {};
     try { localNames = JSON.parse(localStorage.getItem("wilda_anisa_guests")||"[]").map(g=>norm(g.nama)); } catch {}
     if (sb) {
       try {
-        const { data } = await sb.from("guests").select("name,token_qr").limit(1000);
-        if (data) cloudNames = data.filter(r=>!reserved(r.token_qr)).map(r=>norm(r.name));
+        const { data } = await sb.from("guests").select("name,token_qr,checked_in_at").limit(1000);
+        if (data) {
+          const rows = data.filter(r=>!reserved(r.token_qr));
+          cloudNames = rows.map(r=>norm(r.name));
+          rows.forEach(r=>{ if (r.checked_in_at) cloudChecked[norm(r.name)] = r.checked_in_at; });
+        }
       } catch(e){}
     }
     render();
@@ -149,6 +153,7 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
   $("refreshBtn").onclick = () => { cekRsvp(); pushCloud(); };
   function statusTamu(nama){
     const n = norm(nama);
+    if (cloudChecked[n]) return "✅ HADIR • " + new Date(cloudChecked[n]).toLocaleTimeString("id-ID");
     if (cloudNames.includes(n)) return "✅ RSVP (cloud)";
     if (localNames.includes(n)) return "✅ RSVP (HP ini)";
     return "⏳ belum RSVP";

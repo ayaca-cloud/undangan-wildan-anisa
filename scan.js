@@ -148,6 +148,20 @@
     a.download = "daftar-tamu.csv"; a.click();
   };
 
+  // QR untuk tamu (self check-in) — panitia tunjukkan, tamu yang scan
+  $("showQrBtn").onclick = () => {
+    const url = location.origin.replace(/\/+$/,"") + "/absen";
+    $("qrTamu").style.display = "block";
+    $("qrTamuImg").innerHTML = "";
+    if (typeof QRCode !== "undefined") {
+      try { new QRCode($("qrTamuImg"), { text: url, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.M }); }
+      catch(e) { $("qrTamuImg").innerHTML = "<p class='kecil'>Gagal buat QR: " + e.message + "</p>"; }
+    } else {
+      $("qrTamuImg").innerHTML = "<p class='kecil'>Lib QR belum ke-load (offline?)</p>";
+    }
+    $("qrTamuUrl").textContent = url;
+  };
+
   // Kamera via ZXing (@zxing/library UMD -> global ZXing)
   let reader = null;
   $("startBtn").onclick = async () => {

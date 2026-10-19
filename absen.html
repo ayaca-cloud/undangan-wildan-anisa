@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konfirmasi Kehadiran — Wildan & Anisa</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="invitation.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  .absen-wrap{max-width:480px;margin:0 auto;padding:30px 18px 70px}
+  .absen-wrap .form-card{margin-top:6px}
+</style>
+</head>
+<body>
+<div class="absen-wrap">
+  <div class="section-head">
+    <div class="eyebrow">Self Check-in · Wildan &amp; Anisa</div>
+    <h2 class="script">Konfirmasi Kehadiran ♡</h2>
+    <p class="small">Ahad, 6 Desember 2026<br>Kediaman mempelai wanita, Jl. Remaja Gang PLN</p>
+  </div>
+
+  <div class="form-card">
+    <label for="nama">Nama kamu</label>
+    <input id="nama" placeholder="cth: Bpk. Budi Santoso" autocomplete="name">
+    <label for="pax">Jumlah orang (termasuk kamu)</label>
+    <input id="pax" type="number" min="1" max="10" value="1">
+    <button class="btn" id="hadirBtn" style="width:100%;margin-top:16px">Saya Hadir ✓</button>
+    <div id="hasil" class="ucapan" style="display:none;margin-top:16px"></div>
+  </div>
+
+  <p class="small" style="text-align:center;margin-top:18px">Halaman ini terbuka dari QR yang ditunjukkan panitia.</p>
+</div>
+<script src="config.js"></script>
+<script src="absen.js"></script>
+</body>
+</html>

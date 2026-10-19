@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -36,6 +37,16 @@
       <input id="manualKode" placeholder="WDG-....">
       <button class="btn biru kecil" id="manualBtn">Cek Manual 🔍</button>
       <div id="hasil"></div>
+    </div>
+    <div class="doodle-card hijau center">
+      <h3 class="hand" style="margin:0">🔳 QR untuk Tamu (self check-in)</h3>
+      <p class="kecil">Tunjukin QR ini ke tamu → tamu scan pakai kamera HP / Google Lens → isi nama → kehadirannya langsung tercatat.</p>
+      <button class="btn biru" id="showQrBtn">Tampilkan QR</button>
+      <div id="qrTamu" style="display:none;margin-top:14px">
+        <div id="qrTamuImg" style="display:flex;justify-content:center"></div>
+        <p class="kecil" id="qrTamuUrl" style="word-break:break-all;margin-top:8px"></p>
+        <button class="btn putih kecil" onclick="window.print()">🖨️ Print QR</button>
+      </div>
     </div>
     <div class="doodle-card hijau">
       <h3 class="hand" style="margin:0">📋 Daftar check-in (HP ini)</h3>
