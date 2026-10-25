@@ -57,14 +57,15 @@
     return tex;
   }
 
-  const COUNT  = window.innerWidth < 720 ? 64 : 118;
-  const HEARTS = Math.round(COUNT * 0.22);
+  const COUNT  = window.innerWidth < 720 ? 78 : 150;
+  const HEARTS = Math.round(COUNT * 0.24);
 
   const positions = new Float32Array(COUNT * 3);
   const colors    = new Float32Array(COUNT * 3);
   const sizes     = new Float32Array(COUNT);
   const phases    = new Float32Array(COUNT);
   const atlasVel  = new Float32Array(COUNT);
+  const alphas    = new Float32Array(COUNT);
 
   const palette = [0xb07a52, 0x7d865e, 0xc98b6a, 0xa05636, 0xd9a86a, 0x8f7f5a];
   const cream = new THREE.Color(0xf7f2e8);
@@ -73,17 +74,19 @@
 
   for (let i = 0; i < COUNT; i++){
     const heart = i < HEARTS;
+    const bokeh = !heart && i % 9 === 0;
     positions[i*3]     = rnd(-17, 17);
     positions[i*3 + 1] = rnd(-11, 11);
     positions[i*3 + 2] = rnd(-9, 5);
 
     col.setHex(palette[(Math.random() * palette.length) | 0]);
-    col.lerp(cream, heart ? 0.12 : 0.28);
+    col.lerp(cream, heart ? 0.10 : 0.20);
     colors[i*3]     = col.r;
     colors[i*3 + 1] = col.g;
     colors[i*3 + 2] = col.b;
 
-    sizes[i]    = heart ? rnd(0.20, 0.34) : rnd(0.06, 0.17);
+    sizes[i]    = heart ? rnd(0.26, 0.44) : bokeh ? rnd(0.45, 0.78) : rnd(0.07, 0.19);
+    alphas[i]   = heart ? 1.0 : bokeh ? 0.32 : 0.88;
     phases[i]   = rnd(0, Math.PI * 2);
     atlasVel[i] = heart ? 0.5 : 0.0;
   }
@@ -94,6 +97,7 @@
   geo.setAttribute('aSize',    new THREE.BufferAttribute(sizes, 1));
   geo.setAttribute('aPhase',   new THREE.BufferAttribute(phases, 1));
   geo.setAttribute('aAtlas',   new THREE.BufferAttribute(atlasVel, 1));
+  geo.setAttribute('aAlpha',   new THREE.BufferAttribute(alphas, 1));
 
   const uniforms = {
     uTime:    { value: 0 },
@@ -111,6 +115,7 @@
       attribute float aSize;
       attribute float aPhase;
       attribute float aAtlas;
+      attribute float aAlpha;
       attribute vec3 aColor;
       uniform float uTime;
       uniform vec2 uPointer;
@@ -119,6 +124,7 @@
       varying float vAtlas;
       varying float vAlpha;
       varying float vTwinkle;
+      varying float vAlphaBase;
       void main(){
         vec3 p = position;
         float t = uTime;
@@ -136,6 +142,7 @@
         vAtlas   = aAtlas;
         vAlpha   = smoothstep(-20.0, -6.0, mv.z);
         vTwinkle = 0.78 + 0.22 * sin(uTime*0.9 + aPhase*4.0);
+        vAlphaBase = aAlpha;
       }
     `,
     fragmentShader: `
@@ -145,11 +152,12 @@
       varying float vAtlas;
       varying float vAlpha;
       varying float vTwinkle;
+      varying float vAlphaBase;
       void main(){
         vec2 uv = vec2(gl_PointCoord.x*0.5 + vAtlas, gl_PointCoord.y);
         vec4 tx = texture2D(uTex, uv);
         if (tx.a < 0.03) discard;
-        gl_FragColor = vec4(vColor, tx.a * vAlpha * vTwinkle * 0.9);
+        gl_FragColor = vec4(vColor, tx.a * vAlpha * vTwinkle * vAlphaBase);
       }
     `
   });
