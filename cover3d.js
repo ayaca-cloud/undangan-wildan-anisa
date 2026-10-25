@@ -60,6 +60,24 @@
     });
   }
 
+  function sunTex(){
+    return canvasTex(256,256,(g,w,h)=>{
+      const cx = w/2, cy = h/2, r = w/2;
+      g.clearRect(0,0,w,h);
+      const halo = g.createRadialGradient(cx,cy,r*0.30,cx,cy,r);
+      halo.addColorStop(0,'rgba(248,238,214,.95)');
+      halo.addColorStop(0.6,'rgba(248,238,214,.5)');
+      halo.addColorStop(1,'rgba(248,238,214,0)');
+      g.fillStyle = halo; g.fillRect(0,0,w,h);
+      const core = g.createRadialGradient(cx,cy,0,cx,cy,r*0.36);
+      core.addColorStop(0,'rgba(252,247,232,1)');
+      core.addColorStop(0.82,'rgba(249,240,218,.92)');
+      core.addColorStop(1,'rgba(249,240,218,0)');
+      g.fillStyle = core;
+      g.beginPath(); g.arc(cx,cy,r*0.36,0,Math.PI*2); g.fill();
+    });
+  }
+
   // ---- SKY ----
   const skyTex = canvasTex(64,256,(g,w,h)=>{
     const grd = g.createLinearGradient(0,0,0,h);
@@ -77,10 +95,10 @@
 
   // ---- SUN ----
   const sun = new THREE.Mesh(
-    new THREE.PlaneGeometry(5.0, 5.0),
-    new THREE.MeshBasicMaterial({ map: softCircleTex(), color: 0xf8eed6, transparent: true, depthWrite: false, opacity: 0 })
+    new THREE.PlaneGeometry(4.8, 4.8),
+    new THREE.MeshBasicMaterial({ map: sunTex(), color: 0xffffff, transparent: true, depthWrite: false, opacity: 0 })
   );
-  sun.position.set(1.6, 2.3, -6);
+  sun.position.set(1.25, 2.45, -6);
   scene.add(sun);
 
   // ---- HILLS ----
@@ -153,15 +171,15 @@
     });
     return mesh;
   }
-  const groom = addCouple(svgs[0], 2.35, -1.05, 0.0, 0.4);
-  const bride = addCouple(svgs[1], 2.50,  1.05, 0.2, 1.6);
+  const groom = addCouple(svgs[0], 2.70, -1.22, 0.0, 0.4);
+  const bride = addCouple(svgs[1], 2.85,  1.22, 0.2, 1.6);
 
   // ---- heart between ----
   const heart = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.62, 0.62),
+    new THREE.PlaneGeometry(0.58, 0.58),
     new THREE.MeshBasicMaterial({ map: heartTex(), transparent:true, depthWrite:false, opacity:0 })
   );
-  heart.position.set(0, -2.55, 0.6);
+  heart.position.set(0, -2.45, 0.6);
   scene.add(heart);
 
   // ---- petals ----
