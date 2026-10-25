@@ -33,6 +33,8 @@ img{max-width:100%}
   padding:48px max(20px,calc((100vw - 1050px)/2));
   transition:transform .8s ease,opacity .8s ease}
 #cover.buka{transform:translateY(-100%);opacity:0}
+#cover3d{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+#cover>.cover-copy,#cover>.art{position:relative;z-index:1}
 .cover-copy{padding:25px 10px}
 .cover-copy p{line-height:1.7;max-width:430px}
 #cover h1{font-size:clamp(38px,7vw,74px)}
