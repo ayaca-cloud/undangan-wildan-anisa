@@ -38,15 +38,10 @@
     musikNyala = mauNyala;
   }
   $("bukaBtn").onclick = () => {
-    if (typeof window.coverIntro === "function") window.coverIntro();
+    $("cover").classList.add("buka");
     document.body.style.overflow = "auto";
     toggleMusik(true);
-    setTimeout(() => {
-      const story = document.getElementById("story");
-      if (story) story.scrollIntoView({ block:"start" });
-      $("cover").classList.add("buka");
-      setTimeout(()=>$("cover").style.display="none", 800);
-    }, 700);
+    setTimeout(()=>$("cover").style.display="none", 800);
   };
   document.body.style.overflow = "hidden";
   $("musikBtn").onclick = () => toggleMusik();
