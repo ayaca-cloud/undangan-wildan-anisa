@@ -269,10 +269,10 @@
     const parY = reduceMotion ? 0 : pointer.y * 0.32;
 
     camera.position.x = parX * (1 - ex);
-    camera.position.y = parY * (1 - ex) + (-1.15) * ex;
-    camera.position.z = CAM_Z + (reduceMotion ? 0 : (1 - introP) * 2.6) - 9.4 * ex;
+    camera.position.y = parY * (1 - ex) + (-1.0) * ex;
+    camera.position.z = CAM_Z + (reduceMotion ? 0 : (1 - introP) * 2.6) - 7.8 * ex;
 
-    const lookY = -0.35 * (1 - ex) + (-2.35) * ex;
+    const lookY = -0.35 * (1 - ex) + (-2.05) * ex;
     camera.lookAt(0, lookY, 0);
 
     if (!reduceMotion){
