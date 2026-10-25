@@ -171,6 +171,23 @@ textarea{min-height:90px;resize:vertical}
 
 /* ---------- penutup & footer ---------- */
 .closing{max-width:640px;margin:auto;text-align:center;line-height:1.8}
+.endcard{max-width:640px;margin:auto;text-align:center}
+.end-art{position:relative;height:250px;max-width:400px;margin:0 auto 22px;overflow:hidden;
+  border:1px solid var(--line);border-radius:130px 130px 16px 16px;box-shadow:var(--shadow);
+  background:linear-gradient(#dde0d0,#edd7bd 65%,#ddc4a1)}
+.end-sun{position:absolute;top:11%;left:50%;transform:translateX(-50%);width:100px;height:100px;
+  border-radius:50%;background:radial-gradient(#fdf6e6 0 42%,#f8eed600 72%)}
+.end-hill{position:absolute;bottom:-18%;left:-15%;width:130%;height:52%;
+  border-radius:50% 50% 0 0;background:#9aa07f}
+.end-hill.near{left:8%;bottom:-12%;width:120%;height:40%;background:#6f7860}
+.end-couple{position:absolute;left:0;right:0;bottom:24px;display:flex;align-items:flex-end;
+  justify-content:center;gap:4px}
+.end-couple svg{width:62px;height:79px}
+.end-heart{color:#e2647b;font-size:15px;transform:translateY(-14px)}
+.end-sticker{position:absolute;top:13px;right:9px;max-width:62%;background:#fff8e8;
+  border:1px solid var(--line);padding:7px 11px;transform:rotate(-6deg);
+  font:italic 11px Georgia,serif;box-shadow:var(--shadow)}
+.end-ulang{margin-top:16px}
 .footer{text-align:center;padding:40px 15px;border-top:1px solid var(--line);font-style:italic}
 .watermark{margin-top:18px}
 .brand-badge{display:inline-block;margin-top:6px;padding:6px 16px;border:1px solid var(--line);
