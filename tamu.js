@@ -46,7 +46,7 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     // Nilai default kalau belum ada
     if (!$("baseUrl").value) {
       $("baseUrl").value = localStorage.getItem(LS_BASE) ||
-        ((location.origin.includes("127.") || location.origin.includes("localhost")) ? "https://undangan-wildan-anisa.vercel.app" : location.origin);
+        ((location.origin.includes("127.") || location.origin.includes("localhost")) ? "https://wedding-invitation.blog" : location.origin);
     }
 
     // Tarik dari cloud dulu (biar nggak hilang walau ganti HP/browser)
@@ -66,7 +66,8 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
     }
 
     // Isi form dari cache/data
-    $("baseUrl").value = localStorage.getItem(LS_BASE) || $("baseUrl").value;
+    $("baseUrl").value = (localStorage.getItem(LS_BASE) || $("baseUrl").value)
+      .replace(/^https?:\/\/undangan-wildan-anisa\.vercel\.app/i, "https://wedding-invitation.blog");
     $("tplPesan").value = localStorage.getItem(LS_TPL) || DEFAULT_TPL;
     setStatus(sb ? (adaCloud ? "☁️ tersambung cloud" : "☁️ cloud siap (belum ada data)") : "📱 mode lokal (cloud off)");
 
@@ -83,7 +84,8 @@ Mohon konfirmasi kehadiran lewat tombol RSVP di dalamnya. Terima kasih banyak!
   window.copyText2 = t => { navigator.clipboard.writeText(t).then(()=>alert("Disalin!")); };
 
   function baseUrl(){
-    const b = ($("baseUrl").value||"").trim().replace(/\/+$/,"");
+    const b = ($("baseUrl").value||"").trim().replace(/\/+$/,"")
+      .replace(/^https?:\/\/undangan-wildan-anisa\.vercel\.app/i, "https://wedding-invitation.blog");
     localStorage.setItem(LS_BASE, b);
     return b || location.origin;
   }
