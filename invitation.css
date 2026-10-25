@@ -34,6 +34,8 @@ img{max-width:100%}
   transition:transform .8s ease,opacity .8s ease}
 #cover.buka{transform:translateY(-100%);opacity:0}
 #cover3d{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+#coupleSrc{display:none!important}
+#coverFade{position:absolute;inset:0;z-index:5;background:var(--paper);opacity:0;pointer-events:none;transition:opacity .5s ease}
 #cover>.cover-copy,#cover>.art{position:relative;z-index:1}
 .cover-copy{padding:25px 10px}
 .cover-copy p{line-height:1.7;max-width:430px}
@@ -61,7 +63,7 @@ img{max-width:100%}
 .hill{position:absolute;bottom:0;width:120%;height:40%;border-radius:50% 50% 0 0;
   background:#9aa07f;left:-10%}
 .hill.two{height:28%;background:#6f7860;left:10%;width:110%}
-.sticker{position:absolute;z-index:3;background:#fff8e8;border:1px solid var(--line);
+.sticker{position:absolute;z-index:4;background:#fff8e8;border:1px solid var(--line);
   padding:12px 15px;transform:rotate(-7deg);font-style:italic;box-shadow:var(--shadow);
   font-size:13px}
 .sticker.one{top:14%;right:5%}

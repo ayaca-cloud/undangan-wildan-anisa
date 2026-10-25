@@ -1,10 +1,13 @@
-// === Cover 3D — Three.js floating petals/hearts (earth tone) ===
+// === COVER 2.5D WEBTOON — bride & groom, kamera masuk ke Our Story ===
 (function(){
   const cover = document.getElementById('cover');
-  const canvas = document.getElementById('cover3d');
-  if (!cover || !canvas || !window.THREE) return;
+  const art   = document.querySelector('#cover .art');
+  const canvas= document.getElementById('cover3d');
+  const src   = document.getElementById('coupleSrc');
+  const fadeEl= document.getElementById('coverFade');
+  if (!cover || !art || !canvas || !src || !window.THREE) return;
 
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   let renderer;
   try {
@@ -14,159 +17,192 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
-  camera.position.set(0, 0, 14);
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 120);
+  const CAM_Z = 14;
+  camera.position.set(0, 0, CAM_Z);
 
-  const group = new THREE.Group();
-  scene.add(group);
+  const rnd = (a,b) => a + Math.random() * (b - a);
+  const palette = [0xc9827d, 0x7d865e, 0xc98b6a, 0xb07a52, 0xd9a86a];
 
-  // ---- atlas: soft bokeh circle + heart ----
-  function makeAtlas(){
-    const S = 128;
+  function canvasTex(w,h,draw){
     const c = document.createElement('canvas');
-    c.width = S * 2; c.height = S;
-    const g = c.getContext('2d');
+    c.width = w; c.height = h;
+    draw(c.getContext('2d'), w, h);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+  function softCircleTex(){
+    return canvasTex(128,128,(g,w,h)=>{
+      const grd = g.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);
+      grd.addColorStop(0,'rgba(255,255,255,1)');
+      grd.addColorStop(0.45,'rgba(255,255,255,.75)');
+      grd.addColorStop(1,'rgba(255,255,255,0)');
+      g.fillStyle=grd; g.fillRect(0,0,w,h);
+    });
+  }
+  function heartTex(){
+    return canvasTex(128,128,(g,w,h)=>{
+      g.clearRect(0,0,w,h);
+      g.save();
+      g.translate(w/2, 34.4);
+      g.scale(1.6,1.6);
+      g.beginPath();
+      g.moveTo(0,12);
+      g.bezierCurveTo(-2,-2,-19,-5,-19,10);
+      g.bezierCurveTo(-19,23,-4,31,0,42);
+      g.bezierCurveTo(4,31,19,23,19,10);
+      g.bezierCurveTo(19,-5,2,-2,0,12);
+      g.closePath();
+      g.fillStyle = '#c9566c';
+      g.fill();
+      g.restore();
+    });
+  }
 
-    const grd = g.createRadialGradient(S/2, S/2, 0, S/2, S/2, S/2);
-    grd.addColorStop(0, 'rgba(255,255,255,1)');
-    grd.addColorStop(0.5, 'rgba(255,255,255,.82)');
-    grd.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = grd;
-    g.beginPath(); g.arc(S/2, S/2, S/2, 0, Math.PI*2); g.fill();
+  // ---- SKY ----
+  const skyTex = canvasTex(64,256,(g,w,h)=>{
+    const grd = g.createLinearGradient(0,0,0,h);
+    grd.addColorStop(0,'#dde0d0');
+    grd.addColorStop(0.62,'#edd7bd');
+    grd.addColorStop(1,'#ddc4a1');
+    g.fillStyle = grd; g.fillRect(0,0,w,h);
+  });
+  const sky = new THREE.Mesh(
+    new THREE.PlaneGeometry(72, 42),
+    new THREE.MeshBasicMaterial({ map: skyTex })
+  );
+  sky.position.set(0, 0, -8);
+  scene.add(sky);
 
-    g.save();
-    const s = S / 64;
-    g.translate(S + S/2, S/2 - 18.5 * s);
-    g.scale(s, s);
-    g.beginPath();
-    g.moveTo(0, 12);
-    g.bezierCurveTo(-2, -2, -19, -5, -19, 10);
-    g.bezierCurveTo(-19, 23, -4, 31, 0, 42);
-    g.bezierCurveTo(4, 31, 19, 23, 19, 10);
-    g.bezierCurveTo(19, -5, 2, -2, 0, 12);
-    g.closePath();
-    g.fillStyle = 'rgba(255,255,255,1)';
-    g.fill();
-    g.restore();
+  // ---- SUN ----
+  const sun = new THREE.Mesh(
+    new THREE.PlaneGeometry(5.0, 5.0),
+    new THREE.MeshBasicMaterial({ map: softCircleTex(), color: 0xf8eed6, transparent: true, depthWrite: false, opacity: 0 })
+  );
+  sun.position.set(1.6, 2.3, -6);
+  scene.add(sun);
 
-    const tex = new THREE.CanvasTexture(c);
+  // ---- HILLS ----
+  function hillTex(color){
+    return canvasTex(1024,512,(g,w,h)=>{
+      g.clearRect(0,0,w,h);
+      g.fillStyle = color;
+      g.beginPath();
+      g.ellipse(w*0.5, h*1.02, w*0.62, h*0.66, 0, Math.PI, Math.PI*2);
+      g.lineTo(w, h); g.lineTo(0, h);
+      g.closePath(); g.fill();
+    });
+  }
+  const hillFar = new THREE.Mesh(
+    new THREE.PlaneGeometry(34, 14),
+    new THREE.MeshBasicMaterial({ map: hillTex('#9aa07f'), transparent: true, depthWrite: false })
+  );
+  hillFar.position.set(0, -3.4, -4);
+  scene.add(hillFar);
+
+  const hillNear = new THREE.Mesh(
+    new THREE.PlaneGeometry(34, 14),
+    new THREE.MeshBasicMaterial({ map: hillTex('#6f7860'), transparent: true, depthWrite: false })
+  );
+  hillNear.position.set(0, -4.2, -2.2);
+  scene.add(hillNear);
+
+  // ---- COUPLE (SVG -> texture) ----
+  function loadSvg(tex, onReady){
     tex.minFilter = THREE.LinearFilter;
     tex.magFilter = THREE.LinearFilter;
-    tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-    tex.needsUpdate = true;
+    tex.generateMipmaps = false;
+    tex.colorSpace = THREE.SRGBColorSpace;
+  }
+  function svgToTexture(svgEl, onReady){
+    const clone = svgEl.cloneNode(true);
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    clone.setAttribute('width', '140');
+    clone.setAttribute('height', '178');
+    const xml = new XMLSerializer().serializeToString(clone);
+    const url = URL.createObjectURL(new Blob([xml], { type:'image/svg+xml;charset=utf-8' }));
+    const tex = new THREE.Texture();
+    loadSvg(tex);
+    const img = new Image();
+    img.onload = () => {
+      tex.image = img;
+      tex.needsUpdate = true;
+      URL.revokeObjectURL(url);
+      onReady && onReady(tex);
+    };
+    img.onerror = () => URL.revokeObjectURL(url);
+    img.src = url;
     return tex;
   }
 
-  const COUNT  = window.innerWidth < 720 ? 78 : 150;
-  const HEARTS = Math.round(COUNT * 0.24);
-
-  const positions = new Float32Array(COUNT * 3);
-  const colors    = new Float32Array(COUNT * 3);
-  const sizes     = new Float32Array(COUNT);
-  const phases    = new Float32Array(COUNT);
-  const atlasVel  = new Float32Array(COUNT);
-  const alphas    = new Float32Array(COUNT);
-
-  const palette = [0xb07a52, 0x7d865e, 0xc98b6a, 0xa05636, 0xd9a86a, 0x8f7f5a];
-  const cream = new THREE.Color(0xf7f2e8);
-  const col = new THREE.Color();
-  const rnd = (a,b) => a + Math.random() * (b - a);
-
-  for (let i = 0; i < COUNT; i++){
-    const heart = i < HEARTS;
-    const bokeh = !heart && i % 9 === 0;
-    positions[i*3]     = rnd(-17, 17);
-    positions[i*3 + 1] = rnd(-11, 11);
-    positions[i*3 + 2] = rnd(-9, 5);
-
-    col.setHex(palette[(Math.random() * palette.length) | 0]);
-    col.lerp(cream, heart ? 0.10 : 0.20);
-    colors[i*3]     = col.r;
-    colors[i*3 + 1] = col.g;
-    colors[i*3 + 2] = col.b;
-
-    sizes[i]    = heart ? rnd(0.26, 0.44) : bokeh ? rnd(0.45, 0.78) : rnd(0.07, 0.19);
-    alphas[i]   = heart ? 1.0 : bokeh ? 0.32 : 0.88;
-    phases[i]   = rnd(0, Math.PI * 2);
-    atlasVel[i] = heart ? 0.5 : 0.0;
+  const svgs = src.querySelectorAll('svg');
+  function addCouple(svgEl, h, x, z, phase){
+    if (!svgEl) return null;
+    const geo = new THREE.PlaneGeometry(h * (140/178), h);
+    const mat = new THREE.MeshBasicMaterial({ transparent:true, depthWrite:false, opacity:0 });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, -3.0 + h/2, z);
+    mesh.visible = false;
+    mesh.userData = { baseY: mesh.position.y, phase };
+    scene.add(mesh);
+    svgToTexture(svgEl, tex => {
+      mat.map = tex;
+      mat.needsUpdate = true;
+      mesh.visible = true;
+    });
+    return mesh;
   }
+  const groom = addCouple(svgs[0], 2.35, -1.05, 0.0, 0.4);
+  const bride = addCouple(svgs[1], 2.50,  1.05, 0.2, 1.6);
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geo.setAttribute('aColor',   new THREE.BufferAttribute(colors, 3));
-  geo.setAttribute('aSize',    new THREE.BufferAttribute(sizes, 1));
-  geo.setAttribute('aPhase',   new THREE.BufferAttribute(phases, 1));
-  geo.setAttribute('aAtlas',   new THREE.BufferAttribute(atlasVel, 1));
-  geo.setAttribute('aAlpha',   new THREE.BufferAttribute(alphas, 1));
+  // ---- heart between ----
+  const heart = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.62, 0.62),
+    new THREE.MeshBasicMaterial({ map: heartTex(), transparent:true, depthWrite:false, opacity:0 })
+  );
+  heart.position.set(0, -2.55, 0.6);
+  scene.add(heart);
 
-  const uniforms = {
-    uTime:    { value: 0 },
-    uTex:     { value: makeAtlas() },
-    uPointer: { value: new THREE.Vector2(0, 0) },
-    uHeight:  { value: 800 }
-  };
-
-  const mat = new THREE.ShaderMaterial({
-    uniforms,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.NormalBlending,
-    vertexShader: `
-      attribute float aSize;
-      attribute float aPhase;
-      attribute float aAtlas;
-      attribute float aAlpha;
-      attribute vec3 aColor;
-      uniform float uTime;
-      uniform vec2 uPointer;
-      uniform float uHeight;
-      varying vec3 vColor;
-      varying float vAtlas;
-      varying float vAlpha;
-      varying float vTwinkle;
-      varying float vAlphaBase;
-      void main(){
-        vec3 p = position;
-        float t = uTime;
-        p.x += sin(t*0.35 + aPhase*1.7)*0.45 + cos(t*0.18 + aPhase)*0.22;
-        p.y += cos(t*0.30 + aPhase*1.3)*0.50 + sin(t*0.15 + aPhase*0.7)*0.28;
-        p.z += sin(t*0.22 + aPhase)*0.25;
-        p.x += uPointer.x * (0.75 + (p.z + 9.0)*0.05);
-        p.y += uPointer.y * (0.55 + (p.z + 9.0)*0.04);
-
-        vec4 mv = modelViewMatrix * vec4(p, 1.0);
-        gl_PointSize = aSize * (uHeight / max(-mv.z, 0.1));
-        gl_Position = projectionMatrix * mv;
-
-        vColor   = aColor;
-        vAtlas   = aAtlas;
-        vAlpha   = smoothstep(-20.0, -6.0, mv.z);
-        vTwinkle = 0.78 + 0.22 * sin(uTime*0.9 + aPhase*4.0);
-        vAlphaBase = aAlpha;
-      }
-    `,
-    fragmentShader: `
-      precision mediump float;
-      uniform sampler2D uTex;
-      varying vec3 vColor;
-      varying float vAtlas;
-      varying float vAlpha;
-      varying float vTwinkle;
-      varying float vAlphaBase;
-      void main(){
-        vec2 uv = vec2(gl_PointCoord.x*0.5 + vAtlas, gl_PointCoord.y);
-        vec4 tx = texture2D(uTex, uv);
-        if (tx.a < 0.03) discard;
-        gl_FragColor = vec4(vColor, tx.a * vAlpha * vTwinkle * vAlphaBase);
-      }
-    `
+  // ---- petals ----
+  const PN = 22;
+  const pPos = new Float32Array(PN*3);
+  const pCol = new Float32Array(PN*3);
+  const pSpd = new Float32Array(PN);
+  const pPh  = new Float32Array(PN);
+  const col = new THREE.Color();
+  for (let i=0;i<PN;i++){
+    pPos[i*3]   = rnd(-6.5, 6.5);
+    pPos[i*3+1] = rnd(-5.0, 5.0);
+    pPos[i*3+2] = rnd(-3.0, 1.5);
+    col.setHex(palette[(Math.random()*palette.length)|0]).lerp(new THREE.Color(0xf7f2e8), 0.15);
+    pCol[i*3] = col.r; pCol[i*3+1] = col.g; pCol[i*3+2] = col.b;
+    pSpd[i] = rnd(0.18, 0.5);
+    pPh[i]  = rnd(0, Math.PI*2);
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3));
+  pGeo.setAttribute('color', new THREE.BufferAttribute(pCol,3));
+  const pMat = new THREE.PointsMaterial({
+    size:0.17, map: softCircleTex(), transparent:true, depthWrite:false,
+    vertexColors:true, opacity:0, sizeAttenuation:true
   });
+  const petals = new THREE.Points(pGeo, pMat);
+  scene.add(petals);
 
-  group.add(new THREE.Points(geo, mat));
+  // ---- resize ----
+  function resize(){
+    const w = art.clientWidth || 1, h = art.clientHeight || 1;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
 
-  // pointer parallax
-  const pointer = new THREE.Vector2(0, 0);
-  const target  = new THREE.Vector2(0, 0);
+  // ---- pointer parallax ----
+  const pointer = new THREE.Vector2(0,0);
+  const target  = new THREE.Vector2(0,0);
   function onPointer(e){
     const t = e.touches ? e.touches[0] : e;
     if (!t) return;
@@ -174,53 +210,85 @@
     target.y = -((t.clientY / window.innerHeight) * 2 - 1);
   }
   window.addEventListener('pointermove', onPointer, { passive:true });
-  window.addEventListener('touchmove',   onPointer, { passive:true });
+  window.addEventListener('touchmove', onPointer, { passive:true });
 
-  function resize(){
-    const w = cover.clientWidth  || window.innerWidth;
-    const h = cover.clientHeight || window.innerHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / Math.max(h, 1);
-    camera.updateProjectionMatrix();
-    uniforms.uHeight.value = h * renderer.getPixelRatio();
-  }
-  window.addEventListener('resize', resize);
-  resize();
+  // ---- intro / exit state ----
+  const introStart = performance.now();
+  let exiting = false, exitStart = 0;
+
+  window.coverIntro = function(){
+    if (exiting) return;
+    exiting = true;
+    exitStart = performance.now();
+    if (reduceMotion && fadeEl) fadeEl.style.opacity = '1';
+    else setTimeout(() => { if (fadeEl) fadeEl.style.opacity = '1'; }, 460);
+  };
 
   const clock = new THREE.Clock();
-  let running = true;
-
-  // pause saat cover sudah dibuka / tak terlihat
-  if ('IntersectionObserver' in window){
-    new IntersectionObserver(cfg => {
-      for (const en of cfg) running = en.isIntersecting;
-    }, { threshold: 0.01 }).observe(cover);
-  }
-  document.addEventListener('visibilitychange', () => {
-    running = !document.hidden && !cover.classList.contains('buka');
-  });
-
-  function renderFrame(){
-    uniforms.uTime.value = clock.elapsedTime;
-    pointer.lerp(target, 0.05);
-    uniforms.uPointer.value.set(pointer.x * 1.5, pointer.y * 1.1);
-    group.rotation.y = Math.sin(clock.elapsedTime*0.12)*0.08 + pointer.x*0.10;
-    group.rotation.x = Math.cos(clock.elapsedTime*0.10)*0.05 - pointer.y*0.06;
-    renderer.render(scene, camera);
-  }
-
-  if (reduceMotion){
-    uniforms.uTime.value = 8.0;
-    renderer.render(scene, camera);
-    window.addEventListener('resize', () => { resize(); renderer.render(scene, camera); });
-    return;
-  }
+  let lastT = 0;
 
   function loop(){
+    if (cover.style.display === 'none') return;
     requestAnimationFrame(loop);
-    if (!running || cover.classList.contains('buka')) return;
-    clock.getDelta();
-    renderFrame();
+
+    const now = performance.now();
+    const t = clock.getElapsedTime();
+    const dt = Math.min(Math.max(t - lastT, 0), 0.05);
+    lastT = t;
+
+    let introP = Math.min((now - introStart) / 1400, 1);
+    introP = 1 - Math.pow(1 - introP, 3);
+    const alpha = reduceMotion ? 1 : introP;
+
+    let ex = 0;
+    if (exiting){
+      ex = Math.min((now - exitStart) / 900, 1);
+      ex = ex < 0.5 ? 4*ex*ex*ex : 1 - Math.pow(-2*ex + 2, 3)/2;
+    }
+
+    pointer.lerp(target, 0.06);
+    const parX = reduceMotion ? 0 : pointer.x * 0.5;
+    const parY = reduceMotion ? 0 : pointer.y * 0.32;
+
+    camera.position.x = parX * (1 - ex);
+    camera.position.y = parY * (1 - ex) + (-1.15) * ex;
+    camera.position.z = CAM_Z + (reduceMotion ? 0 : (1 - introP) * 2.6) - 9.4 * ex;
+
+    const lookY = -0.35 * (1 - ex) + (-2.35) * ex;
+    camera.lookAt(0, lookY, 0);
+
+    if (!reduceMotion){
+      if (groom){
+        groom.position.y = groom.userData.baseY + Math.sin(t*1.15 + groom.userData.phase) * 0.035;
+        groom.rotation.z = Math.sin(t*0.85 + groom.userData.phase) * 0.02;
+      }
+      if (bride){
+        bride.position.y = bride.userData.baseY + Math.sin(t*1.15 + bride.userData.phase) * 0.035;
+        bride.rotation.z = Math.sin(t*0.85 + bride.userData.phase) * 0.02;
+      }
+      sun.scale.setScalar(1 + Math.sin(t*0.55) * 0.025);
+      const hb = 1 + Math.sin(t*2.1) * 0.09;
+      heart.scale.setScalar(hb);
+
+      const arr = pGeo.attributes.position.array;
+      for (let i=0;i<PN;i++){
+        arr[i*3+1] -= pSpd[i] * dt;
+        arr[i*3]   += Math.sin(t*0.5 + pPh[i]) * 0.0025;
+        if (arr[i*3+1] < -5.6){
+          arr[i*3+1] = 5.6;
+          arr[i*3]   = rnd(-6.5, 6.5);
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+    }
+
+    sun.material.opacity = alpha;
+    if (groom) groom.material.opacity = alpha;
+    if (bride) bride.material.opacity = alpha;
+    heart.material.opacity = alpha * 0.95;
+    pMat.opacity = alpha * 0.6;
+
+    renderer.render(scene, camera);
   }
   loop();
 })();

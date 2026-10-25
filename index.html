@@ -20,7 +20,6 @@
 
 <!-- COVER -->
 <div id="cover">
-  <canvas id="cover3d" aria-hidden="true"></canvas>
   <div class="cover-copy">
     <div class="eyebrow">A little comic about forever</div>
     <h1>The Wedding<br><span class="script">of Wildan &amp; Anisa</span></h1>
@@ -31,10 +30,9 @@
     <button class="btn" id="bukaBtn">Buka Undangan ♡</button>
   </div>
   <div class="art" aria-label="Ilustrasi pasangan pengantin">
-    <div class="sun"></div>
-    <div class="hill"></div>
-    <div class="hill two"></div>
+    <canvas id="cover3d" aria-hidden="true"></canvas>
     <div class="sticker one">And so, our story continues ♡</div>
+    <div id="coupleSrc" hidden>
     <div class="cover-art-couple">
       <svg viewBox="0 0 140 178" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mempelai pria kartun">
         <path d="M30 178 C30 134 46 120 70 120 C94 120 110 134 110 178 Z" fill="#A0E7E5" stroke="#2B2B2B" stroke-width="3.5" stroke-linejoin="round"/>
@@ -84,6 +82,8 @@
         <circle cx="70" cy="132" r="3.5" fill="#FF8FA3" stroke="#2B2B2B" stroke-width="2"/>
       </svg>
     </div>
+    </div>
+    <div id="coverFade"></div>
     <div class="sticker two">a new chapter together</div>
   </div>
 </div>
