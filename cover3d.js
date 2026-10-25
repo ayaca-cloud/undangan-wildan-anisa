@@ -35,8 +35,8 @@
     g.beginPath(); g.arc(S/2, S/2, S/2, 0, Math.PI*2); g.fill();
 
     g.save();
-    g.translate(S + S/2, S/2 + 2);
-    const s = S * 0.050;
+    const s = S / 64;
+    g.translate(S + S/2, S/2 - 18.5 * s);
     g.scale(s, s);
     g.beginPath();
     g.moveTo(0, 12);
