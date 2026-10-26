@@ -8,6 +8,8 @@
 <meta property="og:description" content="Assalamualaikum, mohon doa restu. Ahad, 6 Des 2026">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="invitation.css">
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js" defer></script>
+<script src="petals3d.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -18,6 +20,7 @@
 
 <!-- COVER -->
 <div id="cover">
+  <canvas id="petals3d" aria-hidden="true"></canvas>
   <div class="cover-copy">
     <div class="eyebrow">A little comic about forever</div>
     <h1>The Wedding<br><span class="script">of Wildan &amp; Anisa</span></h1>
@@ -27,10 +30,55 @@
       <span class="kecil">*maaf bila ada salah penulisan nama &amp; gelar</span></p>
     <button class="btn" id="bukaBtn">Buka Undangan ♡</button>
   </div>
-  <div class="art" aria-label="Ilustrasi pasangan pengantin">
-    <div class="sun"></div>
-    <div class="hill"></div>
-    <div class="hill two"></div>
+  <div class="art" aria-label="Ilustrasi pasangan pengantin di depan jendela ber-tirai">
+    <div class="window" aria-hidden="true">
+      <div class="win-glass"></div>
+      <div class="drape left"></div>
+      <div class="drape right"></div>
+      <div class="sill"></div>
+      <svg class="bloom bl" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#2B2B2B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M62 108 C60 88 54 74 40 62" fill="none" stroke="#5d6b49"/>
+          <path d="M64 108 C68 86 78 70 90 60" fill="none" stroke="#5d6b49"/>
+          <path d="M63 108 C63 92 64 80 64 68" fill="none" stroke="#5d6b49"/>
+          <ellipse cx="47" cy="82" rx="13" ry="6" transform="rotate(-38 47 82)" fill="#7d865e"/>
+          <ellipse cx="81" cy="80" rx="13" ry="6" transform="rotate(34 81 80)" fill="#7d865e"/>
+          <ellipse cx="55" cy="97" rx="11" ry="5" transform="rotate(-18 55 97)" fill="#98a077"/>
+          <g transform="translate(38 54)">
+            <circle cx="0" cy="-10" r="7" fill="#f2dfc6"/><circle cx="9" cy="-3" r="7" fill="#f2dfc6"/>
+            <circle cx="6" cy="8" r="7" fill="#f2dfc6"/><circle cx="-6" cy="8" r="7" fill="#f2dfc6"/>
+            <circle cx="-9" cy="-3" r="7" fill="#f2dfc6"/><circle cx="0" cy="0" r="4.6" fill="#e0a45f"/>
+          </g>
+          <g transform="translate(88 52) scale(.92)">
+            <circle cx="0" cy="-9" r="6.4" fill="#e8b8a1"/><circle cx="8.4" cy="-2.6" r="6.4" fill="#e8b8a1"/>
+            <circle cx="5.4" cy="7.4" r="6.4" fill="#e8b8a1"/><circle cx="-5.4" cy="7.4" r="6.4" fill="#e8b8a1"/>
+            <circle cx="-8.4" cy="-2.6" r="6.4" fill="#e8b8a1"/><circle cx="0" cy="0" r="4.2" fill="#cf8a5c"/>
+          </g>
+          <circle cx="65" cy="64" r="5.6" fill="#dc9a83"/>
+        </g>
+      </svg>
+      <svg class="bloom br" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#2B2B2B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M62 108 C60 88 54 74 40 62" fill="none" stroke="#5d6b49"/>
+          <path d="M64 108 C68 86 78 70 90 60" fill="none" stroke="#5d6b49"/>
+          <path d="M63 108 C63 92 64 80 64 68" fill="none" stroke="#5d6b49"/>
+          <ellipse cx="47" cy="82" rx="13" ry="6" transform="rotate(-38 47 82)" fill="#7d865e"/>
+          <ellipse cx="81" cy="80" rx="13" ry="6" transform="rotate(34 81 80)" fill="#7d865e"/>
+          <ellipse cx="55" cy="97" rx="11" ry="5" transform="rotate(-18 55 97)" fill="#98a077"/>
+          <g transform="translate(38 54)">
+            <circle cx="0" cy="-10" r="7" fill="#f2dfc6"/><circle cx="9" cy="-3" r="7" fill="#f2dfc6"/>
+            <circle cx="6" cy="8" r="7" fill="#f2dfc6"/><circle cx="-6" cy="8" r="7" fill="#f2dfc6"/>
+            <circle cx="-9" cy="-3" r="7" fill="#f2dfc6"/><circle cx="0" cy="0" r="4.6" fill="#e0a45f"/>
+          </g>
+          <g transform="translate(88 52) scale(.92)">
+            <circle cx="0" cy="-9" r="6.4" fill="#e8b8a1"/><circle cx="8.4" cy="-2.6" r="6.4" fill="#e8b8a1"/>
+            <circle cx="5.4" cy="7.4" r="6.4" fill="#e8b8a1"/><circle cx="-5.4" cy="7.4" r="6.4" fill="#e8b8a1"/>
+            <circle cx="-8.4" cy="-2.6" r="6.4" fill="#e8b8a1"/><circle cx="0" cy="0" r="4.2" fill="#cf8a5c"/>
+          </g>
+          <circle cx="65" cy="64" r="5.6" fill="#dc9a83"/>
+        </g>
+      </svg>
+    </div>
     <div class="sticker one">And so, our story continues ♡</div>
     <div class="cover-art-couple">
       <svg viewBox="0 0 140 178" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mempelai pria kartun">

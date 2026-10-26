@@ -50,21 +50,41 @@ img{max-width:100%}
 .eyebrow{font:11px Arial;letter-spacing:3px;text-transform:uppercase;color:var(--rose)}
 .date-pill{display:inline-block;border:1px solid var(--line);border-radius:30px;
   padding:10px 16px;font:12px Arial;letter-spacing:2px;margin:6px 0}
-.art{position:relative;min-height:440px;border:1px solid var(--line);
+#petals3d{position:fixed;inset:0;z-index:2;width:100%;height:100%;pointer-events:none;display:block}
+#cover>.cover-copy{position:relative;z-index:3}
+.art{position:relative;z-index:1;min-height:440px;border:1px solid var(--line);
   border-radius:48% 48% 18px 18px;
-  background:linear-gradient(#dde0d0,#edd7bd 65%,#ddc4a1);overflow:hidden;
+  background:linear-gradient(#f4ebdb,#e9dac1 65%,#e0cfb4);overflow:hidden;
   box-shadow:var(--shadow);display:flex;align-items:end;justify-content:center}
-.sun{position:absolute;top:12%;left:25%;width:160px;height:160px;background:#f8eed6;
-  border-radius:50%;opacity:.85}
-.hill{position:absolute;bottom:0;width:120%;height:40%;border-radius:50% 50% 0 0;
-  background:#9aa07f;left:-10%}
-.hill.two{height:28%;background:#6f7860;left:10%;width:110%}
-.sticker{position:absolute;z-index:3;background:#fff8e8;border:1px solid var(--line);
+.window{position:absolute;inset:0;z-index:0}
+.win-glass{position:absolute;left:8%;right:8%;top:8%;bottom:15%;overflow:hidden;
+  border-radius:50% 50% 8px 8px / 36% 36% 8px 8px;
+  background:linear-gradient(#fdf6e7,#f8ebd3 42%,#efd8b6 72%,#e4c9a3);
+  box-shadow:inset 0 0 0 9px #faf3e4,inset 0 0 0 10px #d9c8ad,inset 0 24px 50px #c9a97d55}
+.win-glass:before{content:"";position:absolute;left:50%;top:30%;width:62%;aspect-ratio:1;
+  transform:translate(-50%,-50%);background:radial-gradient(circle,#fffaf0 0 38%,#fffaf000 70%)}
+.win-glass:after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,transparent calc(50% - 2px),#faf3e4 calc(50% - 2px) calc(50% + 2px),transparent calc(50% + 2px)),
+  linear-gradient(0deg,transparent 34%,#faf3e4 34% calc(34% + 4px),transparent calc(34% + 4px)),
+  linear-gradient(0deg,transparent 68%,#faf3e4 68% calc(68% + 4px),transparent calc(68% + 4px))}
+.drape{position:absolute;top:-2%;bottom:3%;width:21%;z-index:2;
+  background:repeating-linear-gradient(92deg,#8f4a2f 0 7px,#a85c3b 7px 13px,#c07c58 13px 18px,#94512f 18px 26px);
+  box-shadow:inset 0 0 28px #5a2f1e5c,0 14px 30px #5b4a3422}
+.drape.left{left:1%;border-radius:0 0 62% 4px / 0 0 15% 4px}
+.drape.right{right:1%;border-radius:0 0 4px 62% / 0 0 4px 15%}
+.sill{position:absolute;left:5%;right:5%;bottom:13%;height:14px;z-index:3;border-radius:7px;
+  background:linear-gradient(#f8f0df,#ddc9a9);border:1px solid var(--line);
+  box-shadow:0 8px 16px #5b4a3422}
+.bloom{position:absolute;bottom:5%;width:clamp(72px,15%,110px);height:auto;z-index:4;
+  filter:drop-shadow(0 5px 7px #5b4a3428)}
+.bloom.bl{left:1%}
+.bloom.br{right:1%;transform:scaleX(-1)}
+.sticker{position:absolute;z-index:6;background:#fff8e8;border:1px solid var(--line);
   padding:12px 15px;transform:rotate(-7deg);font-style:italic;box-shadow:var(--shadow);
   font-size:13px}
-.sticker.one{top:14%;right:5%}
-.sticker.two{bottom:9%;left:5%;transform:rotate(5deg)}
-.cover-art-couple{position:relative;z-index:2;display:flex;align-items:flex-end;
+.sticker.one{top:22%;right:5%}
+.sticker.two{top:35%;left:3%;transform:rotate(-5deg)}
+.cover-art-couple{position:relative;z-index:5;display:flex;align-items:flex-end;
   justify-content:center;gap:6px;margin-bottom:34px}
 .cover-art-couple svg{width:82px;height:104px}
 .cover-art-couple .love{font-size:26px;transform:translateY(-12px)}
@@ -180,7 +200,14 @@ textarea{min-height:90px;resize:vertical}
   #cover{grid-template-columns:1fr;padding:25px 20px 45px;gap:20px}
   .cover-copy{text-align:center}
   .cover-copy p{margin-left:auto;margin-right:auto}
-  .art{min-height:330px;grid-row:1}
+  .art{min-height:340px;grid-row:1}
+  .cover-art-couple svg{width:66px;height:84px}
+  .cover-art-couple .love{font-size:20px;transform:translateY(-9px)}
+  .cover-art-couple{margin-bottom:26px;gap:4px}
+  .sticker{font-size:11px;padding:8px 10px}
+  .sticker.one{top:20%;right:5%}
+  .sticker.two{top:33%;left:3%}
+  .bloom{width:64px}
   .story-grid,.events,.map-card{grid-template-columns:1fr}
   .gallery{gap:8px}
   .photo{font-size:35px;border-width:5px}
