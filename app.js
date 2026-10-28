@@ -43,6 +43,12 @@
     toggleMusik(true);
     setTimeout(()=>$("cover").style.display="none", 800);
   };
+  const noteBtn = $("noteBtn");
+  if (noteBtn) noteBtn.onclick = () => {
+    const note = $("personalNote");
+    note.hidden = !note.hidden;
+    noteBtn.textContent = note.hidden ? "A little note for you ♡" : "Aww, see you there! ♡";
+  };
   document.body.style.overflow = "hidden";
   $("musikBtn").onclick = () => toggleMusik();
 
