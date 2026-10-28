@@ -29,19 +29,52 @@ img{max-width:100%}
 /* ---------- COVER (gate) ---------- */
 #cover{position:fixed;inset:0;z-index:100;background:var(--paper);
   background-image:radial-gradient(#a9967a22 .8px,transparent .8px);background-size:12px 12px;
-  overflow:auto;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center;
-  align-content:center;align-content:safe center;grid-auto-rows:max-content;
-  padding:48px max(20px,calc((100vw - 1050px)/2));
+  overflow:auto;display:grid;place-items:center;align-content:safe center;
+  grid-auto-rows:max-content;padding:22px 16px;
   transition:transform .8s ease,opacity .8s ease}
 #cover.buka{transform:translateY(-100%);opacity:0}
-.cover-copy{padding:25px 10px}
-.cover-copy p{line-height:1.7;max-width:430px}
-#cover h1{font-size:clamp(38px,6.4vw,64px);margin:10px 0 6px}
-.say-i-do{font-size:16px;letter-spacing:1.5px;color:var(--rose);margin:0 0 12px;
-  font-style:italic}
-.say-i-do .hollow{font-style:normal;font-size:18px;vertical-align:-1px}
-#namaTamu{font-weight:normal;font-size:30px;margin:6px 0;display:inline-block;
-  padding:0 10px;border-bottom:1px dashed var(--line)}
+#petals3d{position:fixed;inset:0;z-index:2;width:100%;height:100%;pointer-events:none;display:block}
+
+.book{position:relative;z-index:1;isolation:isolate;width:min(100%,620px);
+  background:var(--paper);border:1px solid #c8b394;border-radius:8px 8px 18px 8px;
+  box-shadow:0 18px 50px #5b4a341f,0 2px 0 #ffffffb3 inset;overflow:hidden;
+  padding:clamp(22px,3.2vw,32px) clamp(16px,4vw,32px);text-align:center}
+.book:before{content:"";position:absolute;inset:10px;z-index:-1;pointer-events:none;
+  border:1px dashed #b07a5259;border-radius:4px}
+.book:after{content:"";position:absolute;top:0;right:32px;width:20px;height:100%;z-index:-1;
+  border-left:1px solid #7d865e4d;border-right:1px solid #7d865e33;pointer-events:none}
+
+.tiny-label{display:flex;align-items:center;justify-content:center;gap:10px;
+  font:10px Arial;letter-spacing:2.6px;text-transform:uppercase;color:var(--rose)}
+.tiny-label:before,.tiny-label:after{content:"";height:1px;width:30px;background:var(--line)}
+#cover h1{font-size:clamp(30px,4.6vw,46px);line-height:1.02;letter-spacing:-1.2px;margin:16px 0 8px}
+.title-underline{width:72px;height:4px;border-radius:20px;background:#b07a5280;
+  transform:rotate(-2deg);margin:0 auto 14px}
+.names{font-size:clamp(23px,4vw,32px);line-height:1.15;color:var(--rose);margin:0}
+.amp{font-style:italic;color:var(--sage);font-size:.8em}
+
+.photo-frame{position:relative;margin:16px auto 18px;width:min(64%,262px);padding:7px;
+  background:#fffdf8;border:1px solid var(--line);border-radius:4px;
+  box-shadow:0 8px 22px #5b4a341f;transform:rotate(-1.2deg)}
+.cover-photo{display:block;width:100%;height:auto;aspect-ratio:5/6;object-fit:cover;
+  object-position:center 33%;border:1px solid #e8dcc7;
+  filter:sepia(.2) saturate(.8) brightness(1.02) contrast(.99) hue-rotate(-4deg)}
+
+.date-card{position:relative;width:min(100%,300px);margin:0 auto;background:var(--cream);
+  border:1px solid var(--line);padding:10px 16px 9px}
+.date-card:before{content:"\2726";position:absolute;left:-9px;top:-11px;color:var(--rose);font-size:17px}
+.date-card:after{content:"\273F";position:absolute;right:-8px;bottom:-12px;color:var(--sage);font-size:17px}
+.date-label{font:10px Arial;letter-spacing:2.2px;text-transform:uppercase;color:#8a7860}
+.date{font-size:18px;margin-top:4px;color:#5a4d40;letter-spacing:.3px}
+
+.welcome{margin-top:18px}
+.greeting{font-size:15px;color:var(--sage);letter-spacing:.4px}
+.welcome-text{font-size:14px;line-height:1.7;color:#6c6153;max-width:430px;margin:9px auto 0}
+.guest-label{font:10.5px Arial;letter-spacing:1.4px;text-transform:uppercase;color:#8a7860;margin:16px 0 0}
+#namaTamu{font-weight:normal;font-size:21px;color:var(--rose);margin:3px 0 0;
+  display:inline-block;padding:0 8px;border-bottom:1px dashed var(--line)}
+.name-note{font:10.5px Arial;color:#9a8974;margin:7px 0 0}
+
 .btn{border:0;background:var(--rose);color:#fff;border-radius:30px;padding:13px 20px;
   cursor:pointer;display:inline-block;text-decoration:none;font:12px Arial;letter-spacing:.5px;
   box-shadow:0 4px 0 #8d5f3c;margin-top:10px}
@@ -54,22 +87,7 @@ img{max-width:100%}
 .eyebrow{font:11px Arial;letter-spacing:3px;text-transform:uppercase;color:var(--rose)}
 .date-pill{display:inline-block;border:1px solid var(--line);border-radius:30px;
   padding:10px 16px;font:12px Arial;letter-spacing:2px;margin:6px 0}
-#petals3d{position:fixed;inset:0;z-index:2;width:100%;height:100%;pointer-events:none;display:block}
-#cover>.cover-copy{position:relative;z-index:3}
-.art{position:relative;z-index:1;height:min(64vh,600px);aspect-ratio:2/3;width:auto;
-  justify-self:center;border:1px solid #c7ad8c;
-  border-radius:46% 46% 16px 16px;
-  background:linear-gradient(#f4ebdb,#e9dac1 65%,#e0cfb4);overflow:hidden;
-  box-shadow:var(--shadow)}
-.art:before{content:"";position:absolute;inset:7px;z-index:2;pointer-events:none;
-  border:1px solid #fffaf2b3;border-radius:44% 44% 11px 11px}
-.cover-photo{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;
-  object-position:center 34%;
-  filter:sepia(.3) saturate(.74) brightness(1.02) contrast(.98) hue-rotate(-6deg)}
-.art:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,#fdf1dc59,#fff0 30%,#4a3a2626),
-    radial-gradient(120% 75% at 50% 18%,#fff3 0%,#0000 62%);
-  box-shadow:inset 0 0 60px #5b4a3426}
+#bukaBtn{margin-top:16px}
 
 /* ---------- layout utama ---------- */
 .topbar{position:sticky;top:0;z-index:10;background:#fff9f0ef;border-bottom:1px solid var(--line);
@@ -175,17 +193,16 @@ textarea{min-height:90px;resize:vertical}
 /* ---------- responsive ---------- */
 @media(max-width:720px){
   .menu{display:none}
-  #cover{grid-template-columns:1fr;padding:25px 20px 45px;gap:20px;align-content:start}
-  .cover-copy{text-align:center}
-  .cover-copy p{margin-left:auto;margin-right:auto}
-  #cover h1{font-size:clamp(34px,9vw,44px);margin:8px 0 10px}
-  #cover .date-pill{margin:4px 0}
-  #cover .cover-to{line-height:1.6}
-  #namaTamu{font-size:26px;margin:2px 0}
-  #bukaBtn{margin-top:8px}
-  .art{height:min(44vh,420px);width:auto;max-width:none;aspect-ratio:5/6;grid-row:1;
-    justify-self:center;border-radius:44% 44% 14px 14px}
-  .art:before{border-radius:42% 42% 9px 9px}
+  #cover{padding:14px 12px}
+  .book{padding:24px 16px 26px}
+  .book:after{display:none}
+  .tiny-label{font-size:9px;letter-spacing:2.1px;gap:8px}
+  .tiny-label:before,.tiny-label:after{width:20px}
+  #cover h1{font-size:31px;margin:14px 0 7px}
+  .names{font-size:24px}
+  .photo-frame{width:min(64%,230px)}
+  .welcome-text{font-size:13.5px}
+  #bukaBtn{margin-top:14px}
 
   .bloom{width:64px}
   .story-grid,.events,.map-card{grid-template-columns:1fr}
@@ -196,9 +213,12 @@ textarea{min-height:90px;resize:vertical}
   section{padding:55px 0}
 }
 
-@media(max-width:720px) and (max-height:760px){
-  #cover .eyebrow{display:none}
-  #cover h1{font-size:32px;margin:4px 0 8px}
-  .art{width:auto;height:40vh;max-width:none}
-  #cover{padding:18px 20px 30px;gap:14px}
+@media(max-height:770px){
+  .welcome-text{display:none}
+  #cover h1{font-size:28px;margin:10px 0 6px}
+  .names{font-size:26px}
+  .photo-frame{width:min(52%,205px);margin:12px auto 14px}
+  .date-card{padding:8px 14px 7px}
+  .welcome{margin-top:14px}
+  .greeting{font-size:14px}
 }
