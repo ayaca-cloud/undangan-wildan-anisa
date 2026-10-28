@@ -154,8 +154,11 @@ section{padding:75px 0;scroll-margin-top:70px}
 
 /* ---------- maps ---------- */
 .map-card{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
-.map-art{min-height:230px;border-radius:16px;border:1px solid var(--line);display:grid;place-items:center;
-  background:repeating-linear-gradient(35deg,#eee7d9,#eee7d9 18px,#e1e7dc 19px,#e1e7dc 38px);font-size:54px}
+.map-embed{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+  background:var(--cream);box-shadow:var(--shadow);min-height:270px}
+.map-embed iframe{display:block;width:100%;height:100%;min-height:270px;border:0;
+  filter:saturate(.85) contrast(1.02)}
+.map-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 
 /* ---------- galeri ---------- */
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -231,6 +234,8 @@ textarea{min-height:90px;resize:vertical}
 
   .bloom{width:64px}
   .story-grid,.events,.map-card{grid-template-columns:1fr}
+  .map-card{gap:16px}
+  .map-embed,.map-embed iframe{min-height:230px}
   .gallery{gap:8px}
   .photo{font-size:35px;border-width:5px}
   .messages{grid-template-columns:1fr}
